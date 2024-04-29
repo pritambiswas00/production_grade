@@ -1,4 +1,6 @@
-export default {
+// import { ignorePatterns } from './apps/web/.eslintrc.cjs';
+
+module.export = {
   root: true,
   env: {
     browser: true,
@@ -9,11 +11,13 @@ export default {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   overrides: [
     {
       env: {
         node: true,
+        browser: true,
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
@@ -21,18 +25,24 @@ export default {
       },
     },
   ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: 2021,
     sourceType: 'module',
   },
-  plugin: ['@typescript-eslint'],
-  rules: {},
-  ignores: [
+  plugins: ['@typescript-eslint', 'react-refresh'], // Changed to an array
+  rules: {
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
+  },
+  ignore: [
     'coverage',
     'public',
     'dist',
     'pnpm-lock.yaml',
     'pnpm-workspace.yaml',
-  ],
+  ], // Corrected property name to 'ignore'
 };
