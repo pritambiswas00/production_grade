@@ -1,0 +1,41 @@
+{
+  "name": "production_grade",
+  "version": "1.0.0",
+  "description": "",
+  "private": "true",
+  "packageManager": "pnpm@9.0.4",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "prepare": "husky install",
+    "server:dev": "pnpm --filter server dev:watch",
+    "ui:dev": "pnpm --filter web dev",
+    "build:server": "pnpm --filter server build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "engines": {
+    "node": "20.12.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "eslint": "^9.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "globals": "^15.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "typescript-eslint": "^7.7.1"
+  }
+}
