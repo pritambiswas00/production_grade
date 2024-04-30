@@ -48,5 +48,5 @@ jobs:
       - name: Merge to Development Branch
         uses: actions/checkout@v3
 
-      - name: Use Git command to merge
-        run: git merge development
+      - name: Merge to Development
+        run: git merge Development
