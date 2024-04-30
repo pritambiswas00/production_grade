@@ -1,9 +1,9 @@
-name: Test and Merge
+name: Test and Deploy (Optional Merge)
 
 on:
   push:
     branches:
-      - Development
+      - main # Adjust if using a different branch for development
 
 jobs:
   build:
@@ -11,40 +11,36 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.12.2'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: '16.x' # Adjust if needed
 
       - name: Install dependencies
         working-directory: .
-        run: pnpm install
+        run: npm install # Adjust if using yarn
 
       - name: Run all the tests
         working-directory: .
-        run: pnpm test:all
+        run: npm test:all # Adjust command if your test runner has a different name
 
       - name: Run Linter
         working-directory: .
-        run: pnpm lint
+        run: npm lint # Adjust command if using a different linter
 
       - name: Run Formatter
         working-directory: .
-        run: pnpm format
+        run: npm format # Adjust command if using a different formatter
 
-  merge: # Optional job for merging
-    name: Merge to Development (if successful build)
+  merge: # Optional job for merging (consider pull requests for review)
     runs-on: ubuntu-latest
     needs: build # Wait for the 'build' job to complete
     if: success() # Only run if 'build' job succeeds
 
     steps:
-      - name: Merge to Development
+      - name: Merge to main branch (if desired)
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -52,12 +48,12 @@ jobs:
             const { GitHub } = require('@actions/github');
             const octokit = new GitHub(process.env.GITHUB_TOKEN);
 
-            // Find open pull request targeting 'Development' branch
+            // Find open pull request targeting 'main' branch (adjust branch name)
             const { data: pulls } = await octokit.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
-              head: `${context.repo.owner}:Development`,
+              head: `${context.repo.owner}:main`,  # Adjust branch name
             });
 
             if (pulls.length === 1) {
