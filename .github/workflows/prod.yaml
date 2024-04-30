@@ -29,18 +29,17 @@ jobs:
         working-directory: .
         run: pnpm test:all
 
-      # - name: Install frontend dependencies
-      #   working-directory: /apps/web
-      #   run: pnpm install
+      - name: Run Linter
+        working-directory: /apps/web
+        run: pnpm lint
 
-      # - name: Run frontend tests
-      #   working-directory: /apps/web
-      #   run: pnpm test
+      - name: Run Formtter
+        working-directory: /apps/web
+        run: pnpm format
 
       - name: Merge code to main branch
-        uses: pullreminders/merge@v2
+        uses: devmasx/merge-branch@1.4.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          method: 'squash'
           commit-message: 'Merged changes from development branch to main'
           destination-branch: 'main'
