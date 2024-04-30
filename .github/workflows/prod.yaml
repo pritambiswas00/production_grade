@@ -30,11 +30,11 @@ jobs:
         run: pnpm test:all
 
       - name: Run Linter
-        working-directory: /apps/web
+        working-directory: .
         run: pnpm lint
 
       - name: Run Formtter
-        working-directory: /apps/web
+        working-directory: .
         run: pnpm format
 
       - name: Merge code to main branch
