@@ -42,4 +42,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'Merged changes from development branch to main'
-          destination-branch: 'main'
+          target-branch: 'main'
