@@ -37,11 +37,11 @@ jobs:
         working-directory: .
         run: pnpm format
 
-  merge:
+  merge: # Optional job for merging
     name: Merge to Development (if successful build)
     runs-on: ubuntu-latest
-    needs: build
-    if: success()
+    needs: build # Wait for the 'build' job to complete
+    if: success() # Only run if 'build' job succeeds
 
     steps:
       - name: Merge to Development
@@ -66,6 +66,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pulls[0].number,
-                merge_method: 'squash',
+                merge_method: 'squash',  # Choose your merge method (squash, merge)
               });
             }
