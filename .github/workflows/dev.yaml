@@ -38,8 +38,9 @@ jobs:
         run: pnpm format
 
   merge:
-    name: Merge to Development
+    name: Merge to Development (if successful build)
     runs-on: ubuntu-latest
+    needs: build
     if: success()
 
     steps:
@@ -48,20 +49,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context, GitHub } = require('@actions/github');
-            const { owner, repo } = context.repo;
+            const { GitHub } = require('@actions/github');
             const octokit = new GitHub(process.env.GITHUB_TOKEN);
+
+            // Find open pull request targeting 'development' branch
             const { data: pulls } = await octokit.pulls.list({
-              owner,
-              repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               state: 'open',
-              head: `${owner}:development`,
+              head: `${context.repo.owner}:development`,
             });
+
             if (pulls.length === 1) {
+              // Merge the pull request using 'squash' method (adjust if needed)
               await octokit.pulls.merge({
-                owner,
-                repo,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 pull_number: pulls[0].number,
-                merge_method: 'squash', // Choose the merge method
+                merge_method: 'squash',
               });
             }
