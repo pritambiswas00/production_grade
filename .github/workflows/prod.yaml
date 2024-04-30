@@ -22,11 +22,11 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install  dependencies
-        working-directory: /
+        working-directory: .
         run: pnpm install
 
       - name: Run all the tests
-        working-directory: /
+        working-directory: .
         run: pnpm test:all
 
       # - name: Install frontend dependencies
