@@ -3,7 +3,7 @@ name: Test and Merge
 on:
   push:
     branches:
-      - development
+      - Development
 
 jobs:
   test:
@@ -58,7 +58,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
-              head: `${context.repo.owner}:development`,
+              head: `${context.repo.owner}:Development`,
             });
 
             if (pulls.length === 1) {
