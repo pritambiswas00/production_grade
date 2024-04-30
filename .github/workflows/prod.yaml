@@ -37,10 +37,10 @@ jobs:
       #   working-directory: /apps/web
       #   run: pnpm test
 
-      # - name: Merge code to main branch
-      #   uses: pullreminders/merge@v2
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     method: 'squash'
-      #     commit-message: 'Merged changes from development branch to main'
-      #     destination-branch: 'main'
+      - name: Merge code to main branch
+        uses: pullreminders/merge@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          method: 'squash'
+          commit-message: 'Merged changes from development branch to main'
+          destination-branch: 'main'
