@@ -1,5 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import swaggerJsDoc, { Options } from 'swagger-jsdoc';
+import { serve, setup } from 'swagger-ui-express';
 import logger from './logger/index';
 import authRoutes from './routes/auth.routes';
 import todoRoutes from './routes/todo.routes';

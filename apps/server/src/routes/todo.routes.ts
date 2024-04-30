@@ -2,11 +2,7 @@
  * @swagger
  * tags:
  *   name: Todos
- *   description: v1 endpoints for managing todo items
  *
- * components:
- *   schemas:
- *     ToDo:
  *       type: object
  *       properties:
  *         title:
