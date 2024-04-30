@@ -40,6 +40,6 @@ jobs:
       - name: Merge code to main branch
         uses: devmasx/merge-branch@1.4.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'Merged changes from development branch to main'
-          target-branch: 'main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'Merged changes from development branch to main'
+          target_branch: 'main'
