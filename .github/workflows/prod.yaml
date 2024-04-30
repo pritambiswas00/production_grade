@@ -41,5 +41,4 @@ jobs:
         uses: devmasx/merge-branch@1.4.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'Merged changes from development branch to main'
           target_branch: 'main'
