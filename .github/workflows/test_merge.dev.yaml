@@ -1,0 +1,69 @@
+name: Test and Merge
+
+on:
+  push:
+    branches:
+      - Development
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.12.2'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        working-directory: .
+        run: pnpm install
+
+      - name: Run all the tests
+        working-directory: .
+        run: pnpm test:all
+
+      - name: Run Linter
+        working-directory: .
+        run: pnpm lint
+
+      - name: Run Formatter
+        working-directory: .
+        run: pnpm format
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()
+
+    steps:
+      - name: Merge to Development Branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { GitHub } = require('@actions/github');
+            const octokit = new GitHub(process.env.GITHUB_TOKEN);
+
+            // Find open pull request targeting 'Development' branch
+            const { data: pulls } = await octokit.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:Development`,
+            });
+
+            if (pulls.length === 1) {
+              await octokit.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pulls[0].number,
+                merge_method: 'squash',
+              });
+            }
