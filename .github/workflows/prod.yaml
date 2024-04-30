@@ -40,5 +40,6 @@ jobs:
       - name: Merge code to main branch
         uses: devmasx/merge-branch@1.4.0
         with:
+          type: now
+          target_branch: master
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: 'master'
