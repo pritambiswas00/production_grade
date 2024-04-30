@@ -53,7 +53,7 @@ jobs:
             const { GitHub } = require('@actions/github');
             const octokit = new GitHub(process.env.GITHUB_TOKEN);
 
-            // Find open pull request targeting 'Development' branch
+            // Find open pull request targeting 'Development'
             const { data: pulls } = await octokit.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
