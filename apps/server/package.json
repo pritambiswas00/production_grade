@@ -6,7 +6,10 @@
   "scripts": {
     "dev:watch": "export NODE_ENV=development && nodemon src/index.ts",
     "build": "tsc",
-    "start": "pnpm build && export NODE_ENV=production && cross-env NODE_ENV=production && node dist/index.js"
+    "start": "pnpm build && export NODE_ENV=production && cross-env NODE_ENV=production && node dist/src/index.js",
+    "db:seed": "npx knex seed:run",
+    "db:rollback": "npx knex migrate:rollback",
+    "db:migrate": "npx knex migrate:latest"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +18,20 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "winston": "^3.13.0",
     "zod": "^3.23.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
-    "@types/winston": "^2.4.4",
+    "@types/sqlite3": "^3.1.11",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
