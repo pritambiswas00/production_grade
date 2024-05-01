@@ -26,7 +26,6 @@
 
 import { Router } from 'express';
 import { toDoController } from '../controller/todo.controller';
-
 const router = Router();
 
 /**
