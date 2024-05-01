@@ -39,10 +39,10 @@ export default {
     pool: { min: 0, max: 7 },
     debug: true,
     migrations: {
-      directory: './migrations',
+      directory: './src/migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: './src/seeds',
     },
   },
 
@@ -55,17 +55,17 @@ export default {
     pool: { min: 0, max: 7 },
     debug: true,
     migrations: {
-      directory: './migrations',
+      directory: './src/migrations',
     },
     seeds: {
-      directory: './seeds',
+      directory: './src/seeds',
     },
   },
 
   production: {
     client: Connection.SQLITE3,
     connection: {
-      filename: './prod.db3',
+      filename: './src/prod.db3',
     },
     useNullAsDefault: true,
     pool: { min: 0, max: 7 },

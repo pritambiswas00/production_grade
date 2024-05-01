@@ -34,8 +34,8 @@
  *           description: Password of the User.
  */
 
-import { Response, Request, Router, RouterOptions } from 'express';
-
+import { Response, Request, Router } from 'express';
+import { authController } from '../controller/auth.conroller';
 const router = Router();
 
 /**
@@ -58,9 +58,7 @@ const router = Router();
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signin', async (req: Request, res: Response) => {
-  // Implementation to handle user sign in
-});
+router.post('/signin', authController.signIn);
 
 /**
  * @swagger
@@ -82,9 +80,7 @@ router.post('/signin', async (req: Request, res: Response) => {
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signup', async (req: Request, res: Response) => {
-  // Implementation to handle user sign up
-});
+router.post('/signup', authController.signUp);
 
 /**
  * @swagger
@@ -100,8 +96,6 @@ router.post('/signup', async (req: Request, res: Response) => {
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signout', async (req: Request, res: Response) => {
-  // Implementation to handle user sign out
-});
+router.post('/signout', authController.signOut);
 
 export default router;

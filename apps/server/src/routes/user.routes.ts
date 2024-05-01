@@ -22,7 +22,7 @@
  */
 
 import { Router } from 'express';
-
+import { userController } from '../controller/user.controller';
 const router = Router();
 
 /**
@@ -50,9 +50,7 @@ const router = Router();
  *       '500':
  *         description: Internal server error.
  */
-router.get('/:id', async (req, res) => {
-  // Implementation to retrieve user by ID
-});
+router.get('/:id', userController.getUser);
 
 /**
  * @swagger
@@ -74,9 +72,7 @@ router.get('/:id', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.patch('/update', async (req, res) => {
-  // Implementation to update user
-});
+router.patch('/update', userController.updateUser);
 
 /**
  * @swagger
@@ -92,8 +88,6 @@ router.patch('/update', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.delete('/delete', async (req, res) => {
-  // Implementation to delete user
-});
+router.delete('/delete', userController.updateUser);
 
 export default router;

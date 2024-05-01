@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { IToDo } from '../src/validationSchema/types';
+import { IToDo } from '../validationSchema/types';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries

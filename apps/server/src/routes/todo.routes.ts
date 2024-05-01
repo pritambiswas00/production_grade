@@ -43,9 +43,7 @@
  */
 
 import { Router } from 'express';
-import DB from '../db/index';
-import { IToDo } from '../validationSchema/types';
-
+import { toDoController } from '../controller/todo.controller';
 const router = Router();
 
 /**
@@ -66,9 +64,7 @@ const router = Router();
  *       '500':
  *         description: Internal server error.
  */
-router.post('/create', async (req, res) => {
-  // Implementation to create a new todo item
-});
+router.post('/create', toDoController.createToDo);
 
 /**
  * @swagger
@@ -96,9 +92,7 @@ router.post('/create', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.get('/:id', async (req, res) => {
-  // Implementation to retrieve a todo item by ID
-});
+router.get('/:id', toDoController.getToDo);
 
 /**
  * @swagger
@@ -118,17 +112,7 @@ router.get('/:id', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.get('/all', async (req, res) => {
-  DB.select<IToDo>()
-    .from('todos')
-    .then((data) => {
-      return res.send(data);
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.status(500).send('Internal server error');
-    });
-});
+router.get('/all', toDoController.getAllToDo);
 
 /**
  * @swagger
@@ -158,9 +142,7 @@ router.get('/all', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.patch('/update/:id', async (req, res) => {
-  // Implementation to update a todo item by ID
-});
+router.patch('/update/:id', toDoController.updateToDo);
 
 /**
  * @swagger
@@ -184,8 +166,6 @@ router.patch('/update/:id', async (req, res) => {
  *       '500':
  *         description: Internal server error.
  */
-router.delete('/delete/:id', async (req, res) => {
-  // Implementation to delete a todo item by ID
-});
+router.delete('/delete/:id', toDoController.deleteToDo);
 
 export default router;

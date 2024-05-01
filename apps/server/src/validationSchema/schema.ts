@@ -23,3 +23,27 @@ export const ToDoSchema = z.object({
   created_at: z.string().date().describe('Creation time of the ToDo'),
   updated_at: z.string().date().describe('Update time of the ToDo'),
 });
+
+export const ToDoPaginationParams = z.object({
+  page: z
+    .string()
+    .transform((c) => Number(c))
+    .optional()
+    .describe('Current Page of the Todo'),
+  pageSize: z
+    .string()
+    .transform((c) => Number(c))
+    .optional()
+    .describe('List of todo available'),
+  id: z
+    .string()
+    .transform((c) => Number(c))
+    .optional()
+    .describe('Id of the Todo'),
+});
+
+export const IDExtractorSchema = <T extends string>(key: T) => {
+  return z.object({
+    [key]: z.string(),
+  });
+};

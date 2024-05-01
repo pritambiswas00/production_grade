@@ -7,9 +7,9 @@ export const swaggerInit = (appInstance: Express): void => {
     swaggerDefinition: {
       openapi: '3.0.0',
       info: {
-        title: 'To Do Express Server',
+        title: 'To Do Application',
         version: '1.0.0',
-        description: 'API Documentation for the sever',
+        description: 'API Documentation',
       },
     },
     apis: ['**/*.ts'],
