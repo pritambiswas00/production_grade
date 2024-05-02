@@ -8,7 +8,7 @@ on:
 jobs:
   lint-format-test:
     name: Lint, Format, and Test
-    runs-on: self-host
+    runs-on: self-hosted
     if: github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'synchronize'
 
     steps:
@@ -20,8 +20,11 @@ jobs:
         with:
           node-version: 20.12.2
 
-      - name: Install dependencies
+      - name: Install pnpm
         run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Run linting and formatting checks
         run: pnpm lint && pnpm format
@@ -31,7 +34,7 @@ jobs:
 
   merge-to-development:
     name: Merge to Development
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: lint-format-test
     if: github.event_name == 'pull_request' && github.event.action == 'opened' && github.event.pull_request.base.ref == 'development'
 
