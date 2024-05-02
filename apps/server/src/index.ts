@@ -17,9 +17,6 @@ process.on('SIGINT', async () => {
   const logger = appInstance.get('logger');
   logger.info('Received SIGINT signal. Gracefully shutting down...');
 
-  // Perform any necessary cleanup operations here
-  // For example, close database connections, release resources, etc.
-
   // Close the server
   server.close(() => {
     logger.info('Server gracefully shut down');

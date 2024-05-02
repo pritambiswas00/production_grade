@@ -98,6 +98,9 @@ const toDoController = {
   updateToDo: async (req: Request, res: Response) => {
     try {
       const userId: number = 1;
+      const query = await IDExtractorSchema('id').safeParseAsync(req.query);
+      if (!query.success)
+        return res.status(400).json(query.error.flatten().formErrors);
       const body = await ToDoSchema.partial({
         title: true,
         description: true,
@@ -109,7 +112,11 @@ const toDoController = {
         return res
           .status(400)
           .json(new BadRequest(body.error.flatten().formErrors[0]));
-      const [updated, error] = await toDoService.update(body.data, userId);
+      const [updated, error] = await toDoService.update(
+        body.data,
+        Number(query.data.id),
+        userId,
+      );
       if (error)
         return res
           .status(400)

@@ -2,16 +2,13 @@
  * @swagger
  * tags:
  *   name: Todos
- *   description: API endpoints for managing todo items
+ *   description: v1 endpoints for managing todo items
  *
  * components:
  *   schemas:
  *     ToDo:
  *       type: object
  *       properties:
- *         id:
- *           type: integer
- *           description: The ID of the todo item.
  *         title:
  *           type: string
  *           description: The title of the todo item.
@@ -21,29 +18,15 @@
  *         completed:
  *           type: boolean
  *           description: Indicates whether the todo item is completed or not.
- *         user_id:
- *           type: integer
- *           description: The ID of the user who created the todo item.
- *         created_at:
- *           type: string
- *           format: date-time
- *           description: The date and time when the todo item was created.
- *         updated_at:
- *           type: string
- *           format: date-time
- *           description: The date and time when the todo item was last updated.
  *       example:
- *         id: 1
  *         title: Task 1
  *         description: This is task 1
  *         completed: false
- *         user_id: 1
- *         created_at: 2024-04-30T12:00:00Z
- *         updated_at: 2024-04-30T12:00:00Z
  */
 
 import { Router } from 'express';
 import { toDoController } from '../controller/todo.controller';
+
 const router = Router();
 
 /**
@@ -59,8 +42,10 @@ const router = Router();
  *           schema:
  *             $ref: '#/components/schemas/ToDo'
  *     responses:
- *       '200':
+ *       '201':
  *         description: Todo item created successfully.
+ *       '400':
+ *         description: Bad request.
  *       '500':
  *         description: Internal server error.
  */
@@ -68,7 +53,7 @@ router.post('/create', toDoController.createToDo);
 
 /**
  * @swagger
- * /api/todos/{id}:
+ * /v1/todo/{id}:
  *   get:
  *     summary: Retrieve a todo item by ID
  *     tags: [Todos]
@@ -96,10 +81,21 @@ router.get('/:id', toDoController.getToDo);
 
 /**
  * @swagger
- * /api/todos/all:
+ * /v1/todo/all:
  *   get:
  *     summary: Retrieve all todo items
  *     tags: [Todos]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: The page number for pagination
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *         description: The number of items per page for pagination
  *     responses:
  *       '200':
  *         description: A list of all todo items.
@@ -109,6 +105,8 @@ router.get('/:id', toDoController.getToDo);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/ToDo'
+ *       '400':
+ *         description: Bad request.
  *       '500':
  *         description: Internal server error.
  */
@@ -116,7 +114,7 @@ router.get('/all', toDoController.getAllToDo);
 
 /**
  * @swagger
- * /api/todos/update/{id}:
+ * /v1/todo/update/{id}:
  *   patch:
  *     summary: Update a todo item by ID
  *     tags: [Todos]
@@ -146,7 +144,7 @@ router.patch('/update/:id', toDoController.updateToDo);
 
 /**
  * @swagger
- * /api/todos/delete/{id}:
+ * /v1/todo/delete/{id}:
  *   delete:
  *     summary: Delete a todo item by ID
  *     tags: [Todos]

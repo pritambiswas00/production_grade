@@ -5,7 +5,7 @@ import { Knex } from 'knex';
  */
 enum Env {
   DEV = 'development',
-  STAGING = 'staging',
+  TEST = 'test',
   PROD = 'production',
 }
 
@@ -46,10 +46,10 @@ export default {
     },
   },
 
-  staging: {
+  test: {
     client: Connection.SQLITE3,
     connection: {
-      filename: '/staging.db3',
+      filename: '/dev.db3',
     },
     useNullAsDefault: true,
     pool: { min: 0, max: 7 },

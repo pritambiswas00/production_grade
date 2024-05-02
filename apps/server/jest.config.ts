@@ -4,10 +4,8 @@ export default {
   preset: 'ts-jest',
   clearMocks: true,
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.ts?$': 'ts-jest',
-  },
   testEnvironmentOptions: {
     customExportConditions: [''],
   },
+  rootDir: './',
 } satisfies Config;

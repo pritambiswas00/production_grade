@@ -1,4 +1,4 @@
-import DB from '../db/index';
+import { DB } from '../db/index';
 import { KnexTimeoutError } from 'knex';
 import { IUser } from '../validationSchema/types';
 import { ServerError } from '../Error/error';
@@ -8,18 +8,9 @@ const userService = {
     payload: Pick<IUser, 'email' | 'name' | 'password'>,
   ): Promise<[string | null, ServerError | null | unknown]> => {
     try {
-      let newUser: IUser | null = null;
-      await DB.transaction(async (transaction) => {
-        const [insertedUser] = await transaction<IUser>('users')
-          .insert({
-            name: payload.name,
-            email: payload.email,
-            password: payload.password,
-          })
-          .returning('*');
-        newUser = insertedUser;
-      });
-      return ['User successfully registered', null];
+      const newUser = await DB<IUser>('users').insert(payload).select('*');
+      if (newUser) return ['User successfully registered', null];
+      return [null, new ServerError("Couldn't create the user")];
     } catch (error: unknown) {
       if (error instanceof KnexTimeoutError) {
         return [null, new ServerError(error.message)];
@@ -51,10 +42,12 @@ const userService = {
     userId: number,
   ): Promise<[string | null, ServerError | null | unknown]> => {
     try {
-      await DB.transaction(async (trasaction) => {
-        await trasaction<IUser>('users').where({ id: userId }).update(payload);
-      });
-      return ['User Successfully updated.', null];
+      const updatedUser = await DB<IUser>('users')
+        .where({ id: userId })
+        .update(payload)
+        .select('*');
+      if (updatedUser) return ['User Successfully updated.', null];
+      return [null, new ServerError("Couldn't updated the user")];
     } catch (error: unknown) {
       if (error instanceof KnexTimeoutError) {
         return [null, new ServerError(error.message)];

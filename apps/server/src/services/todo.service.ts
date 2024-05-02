@@ -1,4 +1,4 @@
-import DB from '../db/index';
+import { DB } from '../db/index';
 import { KnexTimeoutError } from 'knex';
 import { IToDo } from '../validationSchema/types';
 import { ServerError } from '../Error/error';
@@ -10,18 +10,14 @@ const toDoService = {
     userId: number,
   ): Promise<[string | null, ServerError | null | unknown]> => {
     try {
-      let newTask: IToDo | null = null;
-      await DB.transaction(async (transaction) => {
-        const [insertedTask] = await transaction<IToDo>()
-          .insert({
-            user_id: userId,
-            title: payload.title,
-            description: payload.description,
-            completed: payload.completed,
-          })
-          .returning('*');
-        newTask = insertedTask;
-      });
+      const newTask = await DB<IToDo>('todos')
+        .insert({
+          title: payload.title,
+          description: payload.description,
+          completed: payload.completed,
+          user_id: userId,
+        })
+        .select('*');
       if (newTask) return ['Successfully created new Task', null];
       return [null, new ServerError("Couldn't create new task")];
     } catch (error: unknown) {
@@ -35,27 +31,45 @@ const toDoService = {
     userId: number,
     id?: number,
     paginationOptions?: PaginationOptions,
-  ): Promise<[IToDo | IToDo[] | null, ServerError | null | unknown]> => {
+  ): Promise<
+    [
+      (
+        | Omit<IToDo, 'id' | 'created_at' | 'updated_at' | 'user_id'>
+        | Omit<IToDo, 'id' | 'created_at' | 'updated_at' | 'user_id'>[]
+        | null
+      ),
+      ServerError | null | unknown,
+    ]
+  > => {
     try {
       if (id) {
         const task = await DB.select()
           .from<IToDo>('todos')
           .where({ id, user_id: userId })
-          .first();
+          .first()
+          .select('*');
         if (task) {
           return [task, null];
         } else {
           return [null, new ServerError('Task not found.')];
         }
       } else {
-        let query = DB.select().from<IToDo>('todos').where({ user_id: userId });
-        if (paginationOptions?.page && paginationOptions.pageSize) {
+        let query = DB.select()
+          .from<IToDo>('todos')
+          .where({ user_id: userId })
+          .select('completed', 'description', 'title');
+        if (
+          paginationOptions?.page !== undefined &&
+          paginationOptions?.pageSize !== undefined
+        ) {
           const { page, pageSize } = paginationOptions;
           const offset = (page - 1) * pageSize;
           query = query.offset(offset).limit(pageSize);
         }
+
         const userTasks = await query;
-        return [userTasks, null];
+        if (userTasks) return [userTasks, null];
+        return [null, new ServerError('Not Found ToDos')];
       }
     } catch (error: unknown) {
       if (error instanceof KnexTimeoutError) {
@@ -65,18 +79,15 @@ const toDoService = {
     }
   },
   update: async (
-    payload: Partial<Pick<IToDo, 'completed' | 'title' | 'description' | 'id'>>,
+    payload: Partial<Pick<IToDo, 'completed' | 'title' | 'description'>>,
+    id: number,
     userId: number,
   ): Promise<[IToDo | null, ServerError | null | unknown]> => {
     try {
-      let task: IToDo | null = null;
-      DB.transaction(async (trasaction) => {
-        const [updatedTask] = await trasaction<IToDo>('todos').where({
-          user_id: userId,
-          id: payload.id,
-        });
-        task = updatedTask;
-      });
+      let task = await DB<IToDo>('todos')
+        .where({ user_id: userId, id: id })
+        .update(payload)
+        .select('*');
 
       if (task) {
         return [task, null];
@@ -93,13 +104,13 @@ const toDoService = {
   delete: async (
     id: number,
     userId: number,
-  ): Promise<[number | null, ServerError | unknown]> => {
+  ): Promise<[string | null, ServerError | unknown]> => {
     try {
       const deleteCount = await DB<IToDo>('todos')
         .where({ id, user_id: userId })
         .delete();
       if (deleteCount > 0) {
-        return [deleteCount, null];
+        return ['Successfullt deleted the Todo', null];
       } else {
         return [null, new ServerError('Task not found.')];
       }

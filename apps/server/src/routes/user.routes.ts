@@ -9,9 +9,6 @@
  *     User:
  *       type: object
  *       properties:
- *         id:
- *           type: number
- *           description: ID of the user.
  *         name:
  *           type: string
  *           description: Name of the user.
@@ -19,38 +16,58 @@
  *           type: string
  *           format: email
  *           description: Email of the user.
+ *         password:
+ *           type: string
+ *           description: Password of the user.
+ *     GetUser:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Name of the user.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email of the user.
+ *     UpdateUser:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Name of the user.
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email of the user.
+ *         password:
+ *           type: string
+ *           description: Password of the user.
  */
 
 import { Router } from 'express';
 import { userController } from '../controller/user.controller';
+
 const router = Router();
 
 /**
  * @swagger
- * /v1/user/{id}:
+ * /v1/user:
  *   get:
  *     summary: Get user by ID
  *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID of the user to retrieve.
  *     responses:
  *       '200':
  *         description: User retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/GetUser'
  *       '404':
  *         description: User not found.
  *       '500':
  *         description: Internal server error.
  */
-router.get('/:id', userController.getUser);
+router.get('/', userController.getUser);
 
 /**
  * @swagger
@@ -63,7 +80,7 @@ router.get('/:id', userController.getUser);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UpdateUser'
  *     responses:
  *       '200':
  *         description: User updated successfully.
@@ -76,18 +93,18 @@ router.patch('/update', userController.updateUser);
 
 /**
  * @swagger
- * /api/user/delete:
+ * /v1/user/delete:
  *   delete:
  *     summary: Delete user
  *     tags: [User]
  *     responses:
  *       '200':
- *         description: User deleted successfully.
+ *         description: Successfully deleted the user.
  *       '404':
  *         description: User not found.
  *       '500':
  *         description: Internal server error.
  */
-router.delete('/delete', userController.updateUser);
+router.delete('/delete', userController.deleteUser);
 
 export default router;
