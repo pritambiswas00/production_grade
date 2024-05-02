@@ -5,6 +5,7 @@ import { resolve } from 'path';
 export enum Environment {
   DEV = 'development',
   PROD = 'production',
+  TEST = 'test',
 }
 config({
   path: resolve(__dirname, '..', '..', '.env'),
@@ -13,11 +14,14 @@ config({
 
 const ServerConfig = z
   .object({
-    NODE_ENV: z.enum([Environment.DEV, Environment.PROD]),
+    NODE_ENV: z
+      .enum([Environment.DEV, Environment.PROD, Environment.TEST])
+      .default(Environment.DEV),
     PORT: z
       .string()
       .max(4, { message: 'PORT length must be 4' })
-      .refine((c) => Number(c), { message: 'Please provide valid PORT' }),
+      .refine((c) => Number(c), { message: 'Please provide valid PORT' })
+      .default('4001'),
   })
   .readonly();
 
