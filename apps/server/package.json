@@ -9,7 +9,7 @@
     "start": "pnpm build && export NODE_ENV=production && cross-env NODE_ENV=production && node dist/src/index.js",
     "db:seed": "npx knex seed:run",
     "db:rollback": "npx knex migrate:rollback",
-    "test": "jest --watchAll"
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
