@@ -1,52 +1,56 @@
-name: Test and Merge
+name: Feature Pull Request CI
 
 on:
-  push:
+  pull_request:
     branches:
-      - Development
+      - '*'
+      - '!main'
 
 jobs:
-  test:
-    name: Run Tests
+  lint-format-test:
+    name: Lint, Format, and Test
     runs-on: self-hosted
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
         with:
-          node-version: '20.12.2'
+          node-version: 20.12.2
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: .
         run: pnpm install
 
-      - name: Run all the tests
-        working-directory: .
+      - name: Run linting and formatting checks
+        run: |
+          pnpm lint
+          pnpm format
+
+      - name: Run tests
         run: pnpm test:all
 
-      - name: Run Linter
-        working-directory: .
-        run: pnpm lint
-
-      - name: Run Formatter
-        working-directory: .
-        run: pnpm format
-
-  merge:
-    name: Merge to Development Branch
+  merge-to-development:
+    name: Merge to Development
     runs-on: self-hosted
-    needs: test
-    if: success()
+    needs: lint-format-test
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize') && github.event.pull_request.base.ref == 'development'
 
     steps:
-      - name: Merge to Development Branch
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Merge to Development
-        run: git merge Development
+      - name: Merge pull request
+        uses: pascalgn/automerge-action@v0.16.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Handle merge conflicts
+        if: steps.merge.outputs.conflicts == 'true'
+        run: |
+          echo "Merge conflicts occurred. Please resolve conflicts manually."

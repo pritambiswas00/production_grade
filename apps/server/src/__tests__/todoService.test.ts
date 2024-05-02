@@ -217,7 +217,6 @@ describe('ToDo Service', () => {
       page: 1,
       pageSize: 5,
     });
-    console.log(todos);
     expect(error).toBeNull();
     expect(todos).toBeInstanceOf(Array);
   });
@@ -316,7 +315,6 @@ describe('ToDo Service', () => {
     const id: number = faker.number.int();
     tracker.on.delete('todos').response<number>(0);
     const [deletedToDo, error] = await toDoService.delete(id, userId);
-    console.log(error, 'ERR');
     expect(deletedToDo).toBeNull();
     expect(error).toBeInstanceOf(Object);
   });
