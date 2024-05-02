@@ -47,9 +47,8 @@ jobs:
 
       - name: Merge pull request
         uses: pascalgn/automerge-action@v0.16.3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: development
+        env:
+          AUTOMERGE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Handle merge conflicts
         if: steps.merge.outputs.conflicts == 'true'
