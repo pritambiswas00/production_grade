@@ -28,7 +28,6 @@ jobs:
   lint-format-test:
     name: Lint, Format, and Test
     runs-on: self-hosted
-    needs: check-conflicts
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
 
     steps:
