@@ -15,29 +15,22 @@ jobs:
       - name: Build Server Docker image
         working-directory: ./apps/server
         run: |
-          docker build -t gcr.io/geometric-rex-332309/server-image .
-          docker push gcr.io/geometric-rex-332309/server-image
+          docker build -t gcr.io/geometric-rex-332309/productionrepo/server-image . \
+          -e "PORT=$secrets.PORT"
+          docker push gcr.io/geometric-rex-332309/productionrepo/server-image
 
       - name: Build UI Docker Image
         working-directory: ./apps/web
         run: |
-          docker build -t gcr.io/geometric-rex-332309/productionrepo/ui-image:latest .
-
-      - name: Configure Docker Client of GC Cloud
-        run: |-
-          gcloud auth configure-docker
-
-      - name: Push the Image to Artifact Registry.
-        run: |-
-          docker push gcr.io/geometric-rex-332309/productionrepo/server-image:latest
-          docker push gcr.io/geometric-rex-332309/productionrepo/ui-image:latest
+          docker build -t gcr.io/geometric-rex-332309/productionrepo/ui-image .
+          docker push gcr.io/geometric-rex-332309/productionrepo/ui-image
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GC_SECRETS }}
 
-      - name: Deploy with Docker Compose
+      - name: Deploy with Docker Compose (assuming prod.yaml for production)
         run: |
           gcloud auth configure-docker
           docker-compose -f docker-compose.prod.yaml up -d
