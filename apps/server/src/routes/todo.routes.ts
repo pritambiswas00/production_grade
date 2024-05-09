@@ -2,7 +2,11 @@
  * @swagger
  * tags:
  *   name: Todos
+ *   description: API Endpoints for todo managing services.
  *
+ * components:
+ *   schemas:
+ *     ToDo:
  *       type: object
  *       properties:
  *         title:
@@ -22,7 +26,18 @@
 
 import { Router } from 'express';
 import { toDoController } from '../controller/todo.controller';
+import passport from 'passport';
 const router = Router();
+router.use(passport.authenticate('jwt'));
+/**
+ * @swagger
+ * securityDefinitions:
+ *   bearerAuth:
+ *     type: apiKey
+ *     name: Authorization
+ *     in: header
+ *     description: Enter JWT token in the format 'Bearer {token}'
+ */
 
 /**
  * @swagger
@@ -30,12 +45,28 @@ const router = Router();
  *   post:
  *     summary: Create a new todo item
  *     tags: [Todos]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ToDo'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the todo item.
+ *               description:
+ *                 type: string
+ *                 description: The description of the todo item.
+ *               completed:
+ *                 type: boolean
+ *                 description: Indicates whether the todo item is completed or not.
+ *           example:
+ *             title: Task 1
+ *             description: This is task 1
+ *             completed: false
  *     responses:
  *       '201':
  *         description: Todo item created successfully.
@@ -52,6 +83,8 @@ router.post('/create', toDoController.createToDo);
  *   get:
  *     summary: Retrieve a todo item by ID
  *     tags: [Todos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -80,6 +113,8 @@ router.get('/:id', toDoController.getToDo);
  *   get:
  *     summary: Retrieve all todo items
  *     tags: [Todos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -113,6 +148,8 @@ router.get('/all', toDoController.getAllToDo);
  *   patch:
  *     summary: Update a todo item by ID
  *     tags: [Todos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -143,6 +180,8 @@ router.patch('/update/:id', toDoController.updateToDo);
  *   delete:
  *     summary: Delete a todo item by ID
  *     tags: [Todos]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

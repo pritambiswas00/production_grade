@@ -2,12 +2,18 @@ import { DB } from '../db/index';
 import { KnexTimeoutError } from 'knex';
 import { IUser } from '../validationSchema/types';
 import { ServerError } from '../Error/error';
+import { generateHashPassword } from '../utils';
 
 const userService = {
   create: async (
     payload: Pick<IUser, 'email' | 'name' | 'password'>,
   ): Promise<[string | null, ServerError | null | unknown]> => {
     try {
+      const isUserExist = await DB.select()
+        .from<IUser>('users')
+        .where({ email: payload.email })
+        .first();
+      if (isUserExist) return [null, new ServerError('User already exists.')];
       const newUser = await DB<IUser>('users').insert(payload).select('*');
       if (newUser) return ['User successfully registered', null];
       return [null, new ServerError("Couldn't create the user")];
@@ -18,12 +24,16 @@ const userService = {
       return [null, error];
     }
   },
-  get: async (userId: number) => {
+  get: async (
+    userId: number,
+  ): Promise<
+    [Pick<IUser, 'email' | 'name'> | null, ServerError | null | unknown]
+  > => {
     try {
       const user = await DB<IUser>('users')
         .where({ id: userId })
-        .select('email', 'name')
-        .first();
+        .first()
+        .select('email', 'name');
 
       if (user) {
         return [user, null];
@@ -42,6 +52,11 @@ const userService = {
     userId: number,
   ): Promise<[string | null, ServerError | null | unknown]> => {
     try {
+      let hashedPassword: string | null = null;
+      if (payload.password) {
+        hashedPassword = generateHashPassword(payload.password);
+        payload.password = hashedPassword;
+      }
       const updatedUser = await DB<IUser>('users')
         .where({ id: userId })
         .update(payload)

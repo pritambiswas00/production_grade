@@ -7,9 +7,15 @@ import {
 } from '../validationSchema/schema';
 import { toDoService } from '../services/todo.service';
 import { ServerError } from '../Error/error';
+import { type IToDo } from '../validationSchema/types';
 
 const toDoController = {
-  createToDo: async (req: Request, res: Response) => {
+  createToDo: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<typeof BadRequest | typeof InternalServerError | string>
+  > => {
     try {
       const payload = await ToDoSchema.omit({
         id: true,
@@ -38,9 +44,18 @@ const toDoController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  getToDo: async (req: Request, res: Response) => {
+  getToDo: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<
+      | typeof BadRequest
+      | typeof InternalServerError
+      | Pick<IToDo, 'completed' | 'description' | 'title'>
+    >
+  > => {
     try {
-      const userId: number = 1;
+      // const userId: string = Bumber(req.user?.id);
       const isQueryExist = await ToDoPaginationParams.safeParseAsync(req.query);
       if (!isQueryExist.success)
         return res
@@ -48,7 +63,7 @@ const toDoController = {
           .json(new BadRequest(isQueryExist.error.flatten().formErrors[0]));
 
       const [todo, error] = await toDoService.get(
-        userId,
+        Number(req.user?.id),
         isQueryExist.data.id,
         undefined,
       );
@@ -67,19 +82,31 @@ const toDoController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  getAllToDo: async (req: Request, res: Response) => {
+  getAllToDo: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<
+      | typeof BadRequest
+      | typeof InternalServerError
+      | Pick<IToDo, 'completed' | 'description' | 'title'>[]
+    >
+  > => {
     try {
-      const userId: number = 1;
       const isQueryExist = await ToDoPaginationParams.safeParseAsync(req.query);
       if (!isQueryExist.success)
         return res
           .status(400)
           .json(new BadRequest(isQueryExist.error.flatten().formErrors[0]));
 
-      const [todos, error] = await toDoService.get(userId, undefined, {
-        page: isQueryExist.data.page,
-        pageSize: isQueryExist.data.pageSize,
-      });
+      const [todos, error] = await toDoService.get(
+        Number(req.user?.id),
+        undefined,
+        {
+          page: isQueryExist.data.page,
+          pageSize: isQueryExist.data.pageSize,
+        },
+      );
       if (error)
         return res
           .status(400)
@@ -95,12 +122,19 @@ const toDoController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  updateToDo: async (req: Request, res: Response) => {
+  updateToDo: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<typeof BadRequest | typeof InternalServerError | IToDo>
+  > => {
     try {
       const userId: number = 1;
       const query = await IDExtractorSchema('id').safeParseAsync(req.query);
       if (!query.success)
-        return res.status(400).json(query.error.flatten().formErrors);
+        return res
+          .status(400)
+          .json(new BadRequest(query.error.flatten().formErrors[0]));
       const body = await ToDoSchema.partial({
         title: true,
         description: true,
@@ -115,7 +149,7 @@ const toDoController = {
       const [updated, error] = await toDoService.update(
         body.data,
         Number(query.data.id),
-        userId,
+        Number(req.user?.id),
       );
       if (error)
         return res
@@ -132,9 +166,13 @@ const toDoController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  deleteToDo: async (req: Request, res: Response) => {
+  deleteToDo: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<typeof BadRequest | typeof InternalServerError | string>
+  > => {
     try {
-      const userId: number = 1;
       const query = await IDExtractorSchema('id').safeParseAsync(req.query);
       if (!query.success)
         return res
@@ -142,7 +180,7 @@ const toDoController = {
           .json(new BadRequest(query.error.flatten().formErrors[0]));
       const [deletedTodo, error] = await toDoService.delete(
         Number(query.data.id),
-        userId,
+        Number(req.user?.id),
       );
       if (error)
         return res

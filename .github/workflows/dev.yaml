@@ -1,52 +1,54 @@
-name: Test and Merge
-
 on:
-  push:
+  pull_request:
     branches:
-      - Development
+      - '*'
+      - '!master'
 
 jobs:
-  test:
-    name: Run Tests
+  check-conflicts:
+    name: Check Any Conflicts
     runs-on: self-hosted
+    if: github.event_name == 'pull_request_target' && github.event.action == 'opened'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Check for Conflicts
+        id: merge
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git checkout -b baseBranch FETCH_HEAD
+          git merge --no-commit --no-ff ${{ github.event.pull_request.head.ref }}
+          if git diff --name-only --diff-filter=U | grep .; then
+              echo 'Conflict Found, Exiting with code 1'
+              exit 1
+          fi
+
+  lint-format-test:
+    name: Lint, Format, and Test
+    runs-on: self-hosted
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v2
         with:
-          node-version: '20.12.2'
+          node-version: 20.12.2
 
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
-        working-directory: .
+      - name: Install Dependencies
         run: pnpm install
 
-      - name: Run all the tests
-        working-directory: .
+      - name: Run Linting and Formatting Checks
+        run: |
+          pnpm lint
+          pnpm format
+
+      - name: Run Tests
         run: pnpm test:all
-
-      - name: Run Linter
-        working-directory: .
-        run: pnpm lint
-
-      - name: Run Formatter
-        working-directory: .
-        run: pnpm format
-
-  merge:
-    name: Merge to Development Branch
-    runs-on: self-hosted
-    needs: test
-    if: success()
-
-    steps:
-      - name: Merge to Development Branch
-        uses: actions/checkout@v3
-
-      - name: Merge to Development
-        run: git merge Development

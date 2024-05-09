@@ -29,7 +29,7 @@ describe('User Service', () => {
       name: 'Test User',
       password: 'password',
     };
-
+    tracker.on.select('users').response<IUser | null>(null);
     tracker.on.insert('users').response<IUser>({
       created_at: new Date().toString(),
       email: 'test@example.com',
@@ -37,9 +37,10 @@ describe('User Service', () => {
       password: 'password',
       id: faker.number.int(),
       updated_at: new Date().toString(),
+      session: '',
     });
-    const [message, error] = await userService.create(payload);
 
+    const [message, error] = await userService.create(payload);
     expect(error).toBeNull();
     expect(message).toEqual('User successfully registered');
   });

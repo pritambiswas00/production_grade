@@ -34,6 +34,7 @@ describe('ToDo Service', () => {
       title: 'First To Do',
       updated_at: new Date().toString(),
     });
+
     const payload = {
       title: 'First To Do',
       description: 'Some description of the todos',
@@ -217,7 +218,6 @@ describe('ToDo Service', () => {
       page: 1,
       pageSize: 5,
     });
-    console.log(todos);
     expect(error).toBeNull();
     expect(todos).toBeInstanceOf(Array);
   });
@@ -316,7 +316,6 @@ describe('ToDo Service', () => {
     const id: number = faker.number.int();
     tracker.on.delete('todos').response<number>(0);
     const [deletedToDo, error] = await toDoService.delete(id, userId);
-    console.log(error, 'ERR');
     expect(deletedToDo).toBeNull();
     expect(error).toBeInstanceOf(Object);
   });
