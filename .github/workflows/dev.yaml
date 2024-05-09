@@ -1,5 +1,3 @@
-name: Feature Pull Request For Merge
-
 on:
   pull_request:
     branches:
@@ -8,15 +6,15 @@ on:
 
 jobs:
   check-conflicts:
-    name: Check any conflicts
+    name: Check Any Conflicts
     runs-on: self-hosted
     if: github.event_name == 'pull_request_target' && github.event.action == 'opened'
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Check for conflicts
+      - name: Check for Conflicts
         id: merge
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref }}
@@ -26,6 +24,7 @@ jobs:
               echo 'Conflict Found, Exiting with code 1'
               exit 1
           fi
+
   lint-format-test:
     name: Lint, Format, and Test
     runs-on: self-hosted
@@ -33,10 +32,10 @@ jobs:
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup Node.js environment
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v2
         with:
           node-version: 20.12.2
@@ -44,13 +43,13 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: pnpm install
 
-      - name: Run linting and formatting checks
+      - name: Run Linting and Formatting Checks
         run: |
           pnpm lint
           pnpm format
 
-      - name: Run tests
+      - name: Run Tests
         run: pnpm test:all
