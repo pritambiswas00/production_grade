@@ -11,6 +11,7 @@ export const UserSchema = z
     password: z.string().describe('Password of the User'),
     created_at: z.string().date().describe('Creation time of the User'),
     updated_at: z.string().date('Update time of the User'),
+    session: z.string().describe('JWT Token of the user when logged in'),
   })
   .strict();
 

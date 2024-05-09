@@ -3,12 +3,22 @@ import { BadRequest, InternalServerError } from 'http-errors';
 import { userService } from '../services/user.service';
 import { UserSchema } from '../validationSchema/schema';
 import { ServerError } from '../Error/error';
+import { IUser } from '../validationSchema/types';
 
 const userController = {
-  getUser: async (req: Request, res: Response) => {
+  getUser: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<
+      | typeof BadRequest
+      | typeof InternalServerError
+      | Pick<IUser, 'email' | 'name'>
+      | null
+    >
+  > => {
     try {
-      const userId: number = 1;
-      const [user, error] = await userService.get(userId);
+      const [user, error] = await userService.get(Number(req.user?.id));
       if (error)
         return res
           .status(400)
@@ -24,9 +34,13 @@ const userController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  updateUser: async (req: Request, res: Response) => {
+  updateUser: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<typeof BadRequest | typeof InternalServerError | string | null>
+  > => {
     try {
-      const userId: number = 1;
       const payload = await UserSchema.partial({
         email: true,
         name: true,
@@ -38,7 +52,10 @@ const userController = {
         return res
           .status(400)
           .json(new BadRequest(payload.error.flatten().formErrors[0]));
-      const [updated, error] = await userService.update(payload.data, userId);
+      const [updated, error] = await userService.update(
+        payload.data,
+        Number(req.user?.id),
+      );
       if (error)
         return res
           .status(400)
@@ -54,10 +71,15 @@ const userController = {
       return res.status(500).json(new InternalServerError());
     }
   },
-  deleteUser: async (req: Request, res: Response) => {
+  deleteUser: async (
+    req: Request,
+    res: Response,
+  ): Promise<
+    Response<typeof BadRequest | typeof InternalServerError | string | null>
+  > => {
     try {
       const userId: number = 1;
-      const [deleted, error] = await userService.delete(userId);
+      const [deleted, error] = await userService.delete(Number(req.user?.id));
       if (error)
         return res
           .status(400)
