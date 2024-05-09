@@ -5,7 +5,6 @@ import { createRequest, createResponse } from 'node-mocks-http';
 import { authController } from '../controller/auth.conroller';
 import { authService } from '../services/auth.service';
 import { sign } from 'jsonwebtoken';
-import { serverConfig } from '../config/config';
 import { ServerError } from '../Error/error';
 import { userService } from '../services/user.service';
 jest.mock('../services/auth.service');
@@ -22,7 +21,7 @@ describe('Auth Controller', () => {
       id: currentUserId,
       name: 'Pritam Biswas',
     };
-    token = sign(currentUser, serverConfig.JWT_SECRET_KEY, {
+    token = sign(currentUser, 'some_secret_key', {
       algorithm: 'HS512',
       expiresIn: 300,
     });
