@@ -34,31 +34,27 @@ jobs:
 
       - name: Run tests
         run: pnpm test:all
-        env:
-          NODE_ENV: test
-        continue-on-error: true
-        outputs:
-          passed: ${{ success() }}
 
   merge-to-development:
     name: Merge to Development
     runs-on: self-hosted
     needs: lint-format-test
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize') && github.event.pull_request.base.ref == 'development' && needs.lint-format-test.outputs.passed == 'true'
+    # if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize') && github.event.pull_request.base.ref == 'development' && needs.lint-format-test.outputs.passed == 'true'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Merge pull request
+        id: merge
         uses: styfle/auto-merge@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: squash
-          squash-message: 'Merged PR #{{ github.event.number }} : ${{ github.event.pull_request.title }}'
+          squash-message: 'Merged PR ${{ github.event.number }} : ${{ github.event.pull_request.title }}'
 
       - name: Handle merge conflicts
         if: steps.merge.outputs.conflicts == 'true'
         run: |
           echo "Automatic merge failed. Please review and merge manually."
-          github.issues.create-comment context='{"body": "Automatic merge failed. Please review and merge manually."}' issue_number=${{ github.event.number }} owner=${{ github.repository_owner }} repo=${{ github.repo }}
+           github.issues.create-comment context='{"body": "Automatic merge failed. Please review and merge manually."}' issue_number=${{ github.event.number }} owner=${{ github.repository_owner }}
