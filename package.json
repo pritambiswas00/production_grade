@@ -10,7 +10,7 @@
     "test:server": "pnpm --filter server test",
     "test:all": "pnpm test:server && pnpm test:web",
     "test:coverage": "jest --forceExit --coverage --verbose --detectOpenHandles",
-    "lint": "eslint . ",
+    "lint": "export COREPACK_ENABLE_STRICT=0 && eslint . ",
     "format": "prettier --write .",
     "prepare": "husky install",
     "server:dev": "pnpm --filter server dev:watch",
