@@ -34,8 +34,9 @@
  *           description: Password of the User.
  */
 
-import { Response, Request, Router } from 'express';
+import { Router } from 'express';
 import { authController } from '../controller/auth.conroller';
+import passport from 'passport';
 const router = Router();
 
 /**
@@ -58,7 +59,7 @@ const router = Router();
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signin', authController.signIn);
+router.post('/signin', passport.authorize('local'), authController.signIn);
 
 /**
  * @swagger
@@ -96,6 +97,6 @@ router.post('/signup', authController.signUp);
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signout', authController.signOut);
+router.post('/signout', passport.authenticate('jwt'), authController.signOut);
 
 export default router;

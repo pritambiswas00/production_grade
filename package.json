@@ -15,7 +15,8 @@
     "prepare": "husky install",
     "server:dev": "pnpm --filter server dev:watch",
     "web:dev": "pnpm --filter web dev",
-    "build:server": "pnpm --filter server build"
+    "build:server": "pnpm --filter server build",
+    "start:app": "concurrently \"pnpm web:dev\" \"pnpm server:dev\""
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@types/jest": "^29.5.12",
+    "concurrently": "^8.2.2",
     "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

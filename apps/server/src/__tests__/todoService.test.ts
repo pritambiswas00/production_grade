@@ -34,6 +34,7 @@ describe('ToDo Service', () => {
       title: 'First To Do',
       updated_at: new Date().toString(),
     });
+
     const payload = {
       title: 'First To Do',
       description: 'Some description of the todos',
