@@ -12,8 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Build and push server Docker image
+        working-directory: ./apps/server
+        run: |
+          docker build -t gcr.io/geometric-rex-332309/server-image . \ --build-arg "SESSION_KEY=$SESSION_KEY" \ --build-arg "JWT_SECRET_KEY=$JWT_KEY" \ --build-arg "PORT=$PORT"
+          docker push gcr.io/geometric-rex-332309/server-image
+
+      - name: Build and push UI Docker image
+        working-directory: ./apps/ui
+        run: |
+          docker build -t gcr.io/geometric-rex-332309/ui-image .
+          docker push gcr.io/geometric-rex-332309/ui-image
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
