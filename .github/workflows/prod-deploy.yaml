@@ -1,0 +1,37 @@
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build and push server Docker image
+        working-directory: ./apps/server
+        run: |
+          docker build -t gcr.io/geometric-rex-332309/server-image . \ -e SESSION_KEY=$secrets.SESSION_KEY JWT_SECRET_KEY=$secrets.JWT_KEY PORT=$secrets.PORT
+          docker push gcr.io/geometric-rex-332309/server-image
+
+      - name: Build and push UI Docker image
+        working-directory: ./apps/ui
+        run: |
+          docker build -t gcr.io/geometric-rex-332309/ui-image .
+          docker push gcr.io/geometric-rex-332309/ui-image
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: geometric-rex-332309
+          credentials_json: ${{ secrets.GC_SECRETS }}
+
+      - name: Deploy with Docker Compose
+        run: |
+          gcloud auth configure-docker
+          docker-compose -f docker-compose.dev.yaml up -d
