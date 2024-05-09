@@ -21,7 +21,7 @@ const ServerConfig = z
       .string()
       .max(4, { message: 'PORT length must be 4' })
       .refine((c) => Number(c), { message: 'Please provide valid PORT' })
-      .default('4001'),
+      .default('8080'),
     SESSION_KEY: z.string().default('SESSION_KEY'),
     JWT_SECRET_KEY: z.string().default('JWT_SECRET_KEY'),
   })
