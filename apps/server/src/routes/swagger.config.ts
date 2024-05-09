@@ -1,6 +1,7 @@
 import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import { Express } from 'express';
 import { serve, setup } from 'swagger-ui-express';
+import { serverConfig } from '../config/config';
 
 export const swaggerInit = (appInstance: Express): void => {
   const options: Options = {
@@ -15,7 +16,7 @@ export const swaggerInit = (appInstance: Express): void => {
     apis: ['**/*.ts'],
     servers: [
       {
-        url: 'http://localhost:4001',
+        url: `http://localhost:${serverConfig.PORT}`,
       },
     ],
   };

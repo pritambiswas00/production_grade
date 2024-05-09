@@ -1,4 +1,4 @@
-name: Feature Pull Request CI
+name: Feature Pull Request For Merge
 
 on:
   pull_request:
@@ -7,9 +7,29 @@ on:
       - '!main'
 
 jobs:
+  check-conflicts:
+    name: Check any conflicts
+    runs-on: self-hosted
+    if: github.event_name == 'pull_request_target' && github.event.action == 'opened'
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Check for conflicts
+        id: merge
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git checkout -b baseBranch FETCH_HEAD
+          git merge --no-commit --no-ff ${{ github.event.pull_request.head.ref }}
+          if git diff --name-only --diff-filter=U | grep .; then
+              echo 'Conflict Found, Exiting with code 1'
+              exit 1
+          fi
   lint-format-test:
     name: Lint, Format, and Test
     runs-on: self-hosted
+    needs: check-conflicts
     if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
 
     steps:

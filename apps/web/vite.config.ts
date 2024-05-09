@@ -11,4 +11,9 @@ export default defineConfig({
       '@': dirname,
     },
   },
+  server: {
+    host: true,
+    port: 3000,
+    hmr: true,
+  },
 });
