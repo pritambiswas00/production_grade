@@ -10,7 +10,7 @@
     "db:seed": "npx knex seed:run",
     "db:rollback": "npx knex migrate:rollback",
     "db:migrate": "npx knex migrate:latest",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "test:coverage": "jest --forceExit --coverage --verbose --detectOpenHandles"
   },
   "dependencies": {
