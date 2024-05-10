@@ -25,7 +25,7 @@ jobs:
 
       - name: Configure Docker Client of GC Cloud
         run: |-
-          gcloud auth configure-docker -y
+          gcloud auth configure-docker
 
       - name: Push the Image to Artifact Registry
         run: |-
