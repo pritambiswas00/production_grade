@@ -28,7 +28,7 @@ jobs:
         run: |-
           gcloud auth configure-docker
 
-      - name: Push the Image to Artifact Registry
+      - name: Push the Image to Artifact Registry.
         run: |-
           docker push gcr.io/geometric-rex-332309/productionrepo/server-image:latest
           docker push gcr.io/geometric-rex-332309/productionrepo/ui-image:latest
