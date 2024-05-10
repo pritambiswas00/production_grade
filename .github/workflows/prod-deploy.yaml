@@ -35,7 +35,7 @@ jobs:
           docker push gcr.io/geometric-rex-332309/productionrepo/server-image:latest
           docker push gcr.io/geometric-rex-332309/productionrepo/ui-image:latest
 
-      - name: Deploy with Docker Compose
+      - name: Deploy the images
         run: |
           docker-compose -f ./docker-compose-prod.yml up -d
 
