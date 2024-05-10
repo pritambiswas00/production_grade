@@ -25,7 +25,7 @@ USER static
 WORKDIR /home/static
 
 
-COPY --from=build-stage /app/dist .
+COPY --from=build-stage /app/ui/dist .
 
 
 CMD ["busybox", "httpd", "-f", "-v", "-p", "3000"]
