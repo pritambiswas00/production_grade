@@ -16,8 +16,7 @@ jobs:
       - name: Build Server Docker image
         working-directory: ./apps/server
         run: |
-          docker build -t gcr.io/geometric-rex-332309/productionrepo/server-image:latest . \
-          --buildArgs "PORT=$secrets.PORT"
+          docker build -t gcr.io/geometric-rex-332309/productionrepo/server-image:latest .
 
       - name: Build UI Docker Image
         working-directory: ./apps/web
