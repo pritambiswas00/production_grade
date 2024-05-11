@@ -9,8 +9,13 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useNavigate } from '@tanstack/react-router';
 
 export function UserNav() {
+  const navigate = useNavigate();
+  const logoutHandler = async (): Promise<void> => {
+    navigate({ to: '/' });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +36,7 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" onClick={logoutHandler}>
           Log out
           <DropdownMenuShortcut></DropdownMenuShortcut>
         </DropdownMenuItem>

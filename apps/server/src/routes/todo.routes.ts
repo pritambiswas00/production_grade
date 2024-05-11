@@ -28,7 +28,7 @@ import { Router } from 'express';
 import { toDoController } from '../controller/todo.controller';
 import passport from 'passport';
 const router = Router();
-router.use(passport.authenticate('jwt'));
+// router.use(passport.authenticate('jwt'));
 /**
  * @swagger
  * securityDefinitions:

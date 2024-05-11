@@ -31,7 +31,7 @@ module.export = {
     ecmaVersion: 2021,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react-refresh'], // Changed to an array
+  plugins: ['@typescript-eslint', 'react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -44,5 +44,5 @@ module.export = {
     'dist',
     'pnpm-lock.yaml',
     'pnpm-workspace.yaml',
-  ], // Corrected property name to 'ignore'
+  ],
 };
