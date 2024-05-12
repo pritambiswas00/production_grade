@@ -28,6 +28,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Node Project
+        working-directory: ./apps/server
         run: pnpm build
 
       - name: Google Cloud Auth
