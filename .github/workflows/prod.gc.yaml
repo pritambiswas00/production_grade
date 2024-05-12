@@ -43,9 +43,9 @@ jobs:
       - name: Deploy default service/module
         working-directory: ./apps/server
         run: |
-          gcloud app deploy app.yaml --quiet --version=node-express-api
+          gcloud app deploy app.yaml --quiet
 
-      # - name: Deploy node-express-api service/module
-      #   working-directory: ./apps/server
-      #   run: |
-      #     gcloud app deploy app.yaml --quiet
+      - name: Deploy node-express-api service/module
+        working-directory: ./apps/server
+        run: |
+          gcloud app deploy app.yaml --quiet --version=node-express-api
