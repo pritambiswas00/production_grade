@@ -5,7 +5,7 @@ interface CustomConfig extends AxiosRequestConfig {
 }
 
 const options: CustomConfig = {
-  baseURL: 'http://localhost:4001',
+  baseURL: 'http://34.133.83.12:8080',
   withCredentials: true,
 };
 
