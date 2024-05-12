@@ -25,7 +25,7 @@ export const swaggerInit = (appInstance: Express): void => {
   };
   const specs = swaggerJSDoc(options);
   appInstance.use(
-    '/docs/*',
+    '/api-docs',
     serve,
     setup(specs, {
       explorer: true,

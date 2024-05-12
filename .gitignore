@@ -27,6 +27,6 @@ dist-ssr
 .env
 
 node_modules
-*.db3
-*.db
+*/**/*.db3
+*/**/*.db
 *.firebase
