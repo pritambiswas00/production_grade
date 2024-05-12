@@ -5,7 +5,7 @@ interface CustomConfig extends AxiosRequestConfig {
 }
 
 const options: CustomConfig = {
-  baseURL: 'http://localhost:4001',
+  baseURL: import.meta.env.VITE_SERVER_URL,
   withCredentials: true,
 };
 
