@@ -4,8 +4,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { CreateSchema, ICreateUser } from '@/schema/types';
+} from '../../components/ui/card';
+import { CreateUserSchema, ICreateUser } from '../../schema/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -16,17 +16,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '../../components/ui/form';
+import { Input } from '../../components/ui/input';
+import { Button } from '../../components/ui/button';
 import { useNavigate } from '@tanstack/react-router';
+import { useToast } from '../../components/ui/use-toast';
+import { signUp } from '../../API/loginService';
 
 interface AddAccountProps {}
 
 export const AddAccount: React.FC<AddAccountProps> = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const createUserForm = useForm<ICreateUser>({
-    resolver: zodResolver(CreateSchema),
+    resolver: zodResolver(CreateUserSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -35,8 +38,19 @@ export const AddAccount: React.FC<AddAccountProps> = () => {
   });
 
   const handleCreateUser = async (data: ICreateUser) => {
-    console.log(data, 'Data');
-    navigate({ to: '/dashboard' });
+    const [message, error] = await signUp(data);
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: error.toString(),
+      });
+      return;
+    }
+    toast({
+      variant: 'default',
+      title: message as string,
+    });
+    navigate({ to: '/' });
   };
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-transparent text-foreground">
@@ -63,7 +77,11 @@ export const AddAccount: React.FC<AddAccountProps> = () => {
                     <FormItem>
                       <FormLabel htmlFor="name">Name</FormLabel>
                       <FormControl>
-                        <Input type="text" {...field} />
+                        <Input
+                          type="text"
+                          {...field}
+                          placeholder="Enter Name"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

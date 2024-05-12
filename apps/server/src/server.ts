@@ -25,7 +25,7 @@ appInstance.use(helmet());
 
 appInstance.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:3000',
     credentials: true,
   }),
 );
@@ -38,8 +38,8 @@ appInstance.use(cookieParser());
 appInstance.use(
   session({
     secret: serverConfig.SESSION_KEY,
-    resave: true,
-    saveUninitialized: false,
+    resave: false,
+    saveUninitialized: true,
     store: new SQLiteStore({
       driver: Database,
       path: './sessions.db',

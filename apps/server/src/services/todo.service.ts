@@ -33,15 +33,12 @@ const toDoService = {
     paginationOptions?: PaginationOptions,
   ): Promise<
     [
-      (
-        | Omit<IToDo, 'id' | 'created_at' | 'updated_at' | 'user_id'>
-        | Omit<IToDo, 'id' | 'created_at' | 'updated_at' | 'user_id'>[]
-        | null
-      ),
+      Omit<IToDo, 'user_id'> | Omit<IToDo, 'user_id'>[] | null,
       ServerError | null | unknown,
     ]
   > => {
     try {
+      console.log(userId, 'useriD');
       if (id) {
         const task = await DB.select()
           .from<IToDo>('todos')
@@ -57,7 +54,15 @@ const toDoService = {
         let query = DB.select()
           .from<IToDo>('todos')
           .where({ user_id: userId })
-          .select('completed', 'description', 'title');
+          .select(
+            'completed',
+            'description',
+            'title',
+            'created_at',
+            'updated_at',
+            'id',
+          )
+          .orderBy('created_at', 'desc');
         if (
           paginationOptions?.page !== undefined &&
           paginationOptions?.pageSize !== undefined
@@ -84,10 +89,10 @@ const toDoService = {
     userId: number,
   ): Promise<[IToDo | null, ServerError | null | unknown]> => {
     try {
-      let task = await DB<IToDo>('todos')
+      let [task] = await DB<IToDo>('todos')
         .where({ user_id: userId, id: id })
         .update(payload)
-        .select('*');
+        .returning('*');
 
       if (task) {
         return [task, null];
@@ -95,6 +100,7 @@ const toDoService = {
         return [null, new ServerError('Task not found.')];
       }
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof KnexTimeoutError) {
         return [null, new ServerError(error.message)];
       }

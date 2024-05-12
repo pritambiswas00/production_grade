@@ -1,14 +1,18 @@
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+} from '../../../components/ui/card';
+import { Label } from '../../../components/ui/label';
+import { Switch } from '../../../components/ui/switch';
 import * as React from 'react';
+import { EditToDo } from '../EditToDo/EditToDo';
+import { Button } from '../../../components/ui/button';
+import { TrashIcon } from '@radix-ui/react-icons';
+import { deleteToDo } from '../../../API/todoService';
+import { useToast } from '../../../components/ui/use-toast';
 
 interface ToDoPros {
   id: number;
@@ -17,7 +21,7 @@ interface ToDoPros {
   completed: boolean;
   created_at: string;
   updated_at: string;
-  openToDo: (id: number) => Promise<void>;
+  refresh: () => void;
 }
 
 const ToDo: React.FC<ToDoPros> = ({
@@ -27,10 +31,22 @@ const ToDo: React.FC<ToDoPros> = ({
   title,
   updated_at,
   id,
-  openToDo,
+  refresh,
 }) => {
-  const openEditToDo = async (): Promise<void> => {
-    openToDo(id);
+  const { toast } = useToast();
+  const handleDeleteToDo = async (id: number) => {
+    const [message, error] = await deleteToDo(id);
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to delete ToDo',
+      });
+    }
+    refresh();
+    toast({
+      variant: 'default',
+      title: message as string,
+    });
   };
   return (
     <React.Fragment>
@@ -58,14 +74,34 @@ const ToDo: React.FC<ToDoPros> = ({
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex justify-evenly items-center gap-5">
+          <div className="w-full flex justify-start items-center gap-5">
             <div className="flex items-center space-x-2">
-              <Switch id="is-completed" checked={completed} disabled />
+              <Switch
+                id="is-completed"
+                checked={completed}
+                disabled
+                title="Change Status"
+              />
               <Label htmlFor="is-completed">Status</Label>
             </div>
-            <Button variant="outline" className="w-full" onClick={openEditToDo}>
-              Edit ToDo
-            </Button>
+            <div className="flex items-center space-x-2">
+              <EditToDo
+                data={{ completed, description, title }}
+                id={id}
+                refresh={refresh}
+              />
+              <Label htmlFor="edit">Edit</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                title="Delete ToDo"
+                variant={'outline'}
+                onClick={() => handleDeleteToDo(id)}
+              >
+                <TrashIcon />
+              </Button>
+              <Label htmlFor="delete">Delete</Label>
+            </div>
           </div>
         </CardFooter>
       </Card>

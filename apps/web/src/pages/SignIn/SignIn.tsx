@@ -3,7 +3,7 @@ import { UserSchema } from '@/schema/user.schema';
 import { type ISignIn } from '@/schema/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Icons } from '@/components/ui/Icons';
+// import { Icons } from '@/components/ui/Icons';
 import { Label } from '@/components/ui/label';
 import {
   Card,
@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { useToast } from '@/components/ui/use-toast';
+import { loginUser } from '@/API/loginService';
 
 interface SignInProps {}
 
@@ -39,10 +40,17 @@ export const SignIn: React.FC<SignInProps> = () => {
     },
   });
   const handleSignIn = async (data: ISignIn) => {
-    console.log(data, 'Data');
+    const [message, error] = await loginUser(data);
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: error.toString(),
+      });
+      return;
+    }
     toast({
       variant: 'default',
-      title: 'Login Successfully',
+      title: message as string,
     });
     navigate({ to: '/dashboard' });
   };
@@ -60,21 +68,21 @@ export const SignIn: React.FC<SignInProps> = () => {
         <Form {...signInForm}>
           <form onSubmit={signInForm.handleSubmit(handleSignIn)}>
             <CardContent className="grid gap-4">
-              <div className="grid grid-cols-2 gap-6">
+              {/* <div className="grid grid-cols-2 gap-6">
                 <Button variant="outline" type="button">
                   <Icons.google className="mr-2 h-4 w-4" />
                   Google
                 </Button>
-              </div>
+              </div> */}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
-                <div className="relative flex justify-center text-xs uppercase">
+                {/* <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-background px-2 text-muted-foreground">
                     Or continue with
                   </span>
-                </div>
+                </div> */}
               </div>
               <div className="grid gap-2">
                 <FormField

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
-import { Button } from '../components/ui/button';
+import { Button } from './button';
 
 describe('Button component', () => {
   it('renders button with specific variant and size', () => {

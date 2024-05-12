@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+  DialogTrigger,
+} from '../../../components/ui/dialog';
+import { Input } from '../../../components/ui/input';
 import {
   Form,
   FormControl,
@@ -16,12 +18,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '../../../components/ui/form';
 import { useForm } from 'react-hook-form';
-import { CreateToDoSchema, ICreateToDo } from '@/schema/types';
+import { CreateToDoSchema, ICreateToDo } from '../../../schema/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
+import { Textarea } from '../../../components/ui/textarea';
+import { Switch } from '../../../components/ui/switch';
+import { Pencil2Icon } from '@radix-ui/react-icons';
+import { useToast } from '../../../components/ui/use-toast';
+import { updateToDo } from '../../../API/todoService';
 
 interface IEditToDoProps {
   data: {
@@ -29,10 +34,12 @@ interface IEditToDoProps {
     description: string;
     completed: boolean;
   };
-  open: boolean;
+  id: number;
+  refresh: () => void;
 }
 
-export const EditToDo: React.FC<IEditToDoProps> = ({ data, open }) => {
+export const EditToDo: React.FC<IEditToDoProps> = ({ data, id, refresh }) => {
+  const { toast } = useToast();
   const editToDoForm = useForm<ICreateToDo>({
     resolver: zodResolver(CreateToDoSchema),
     defaultValues: {
@@ -44,10 +51,29 @@ export const EditToDo: React.FC<IEditToDoProps> = ({ data, open }) => {
 
   const handleEditToDo = async (data: ICreateToDo) => {
     console.log(data, 'Data');
-    // navigate({ to: '/dashboard' });
+    const [_, error] = await updateToDo(data, id);
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: error.toString(),
+      });
+      return;
+    }
+    // refresh();
+    toast({
+      variant: 'default',
+      title: 'Successfully updated the To Do',
+    });
+    refresh();
+    // useLoaderDeps({ from: '/dashboard' });
   };
   return (
-    <Dialog open={open}>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" title="Edit ToDo">
+          <Pencil2Icon />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit ToDo</DialogTitle>
@@ -117,9 +143,11 @@ export const EditToDo: React.FC<IEditToDoProps> = ({ data, open }) => {
               </div>
             </div>
             <DialogFooter>
-              <Button title="Edit ToDo" type="submit">
-                Save
-              </Button>
+              <DialogClose asChild>
+                <Button title="Edit ToDo" type="submit">
+                  Save
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

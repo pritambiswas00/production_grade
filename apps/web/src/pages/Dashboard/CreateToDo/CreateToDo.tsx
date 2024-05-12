@@ -1,4 +1,4 @@
-import { CreateToDoSchema, ICreateToDo } from '@/schema/types';
+import { CreateToDoSchema, ICreateToDo } from '../../../schema/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,25 +9,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
+} from '../../../components/ui/form';
+import { Input } from '../../../components/ui/input';
+import { Button } from '../../../components/ui/button';
+import { Textarea } from '../../../components/ui/textarea';
+import { Switch } from '../../../components/ui/switch';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+  DialogTrigger,
+} from '../../../components/ui/dialog';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { useToast } from '../../../components/ui/use-toast';
+import { createToDo } from '../../../API/todoService';
 
 interface AddToDoProps {
-  open: boolean;
+  refresh: () => void;
 }
 
-export const AddToDo: React.FC<AddToDoProps> = ({ open }) => {
+export const AddToDo: React.FC<AddToDoProps> = ({ refresh }) => {
+  const { toast } = useToast();
   const createToDoForm = useForm<ICreateToDo>({
     resolver: zodResolver(CreateToDoSchema),
     defaultValues: {
@@ -38,15 +44,32 @@ export const AddToDo: React.FC<AddToDoProps> = ({ open }) => {
   });
 
   const handleCreateToDo = async (data: ICreateToDo) => {
-    console.log(data, 'Data');
+    const [message, error] = await createToDo(data);
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: error.toString(),
+      });
+    }
+    // setOpen(false);
+    refresh();
+    toast({
+      variant: 'default',
+      title: message as string,
+    });
   };
   return (
-    <Dialog open={open}>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" title="Add ToDo">
+          <PlusIcon />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add ToDo</DialogTitle>
           <DialogDescription>
-            Create your todo here. Click save when you're done.
+            Add your todo here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <Form {...createToDoForm}>
@@ -111,9 +134,11 @@ export const AddToDo: React.FC<AddToDoProps> = ({ open }) => {
               </div>
             </div>
             <DialogFooter>
-              <Button title="Edit ToDo" type="submit">
-                Save
-              </Button>
+              <DialogClose asChild>
+                <Button title="Add ToDo" type="submit">
+                  Save
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

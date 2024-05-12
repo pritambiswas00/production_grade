@@ -9,9 +9,9 @@ export const UserSchema = z
       .describe('Email Address of the User'),
     password: z
       .string()
-      .regex(new RegExp(/^[a-zA-Z0-9]+$/), {
-        message: 'Password must be alphanumeric.',
-      })
+      // .regex(new RegExp(/^[a-zA-Z0-9]+$/), {
+      //   message: 'Password must be alphanumeric.',
+      // })
       .describe('Password of the User'),
     created_at: z.string().date().describe('Creation time of the User'),
     updated_at: z.string().date('Update time of the User'),
