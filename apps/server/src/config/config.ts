@@ -24,7 +24,6 @@ const ServerConfig = z
       .default('8080'),
     SESSION_KEY: z.string().default('SESSION_KEY'),
     JWT_SECRET_KEY: z.string().default('JWT_SECRET_KEY'),
-    UI_ORIGIN: z.string().url().default('https://express-to-do-app.web.app/'),
   })
   .readonly();
 
