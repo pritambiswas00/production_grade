@@ -22,5 +22,7 @@ RUN pnpm build
 #DB MIGRATTION
 RUN pnpm db:migrate
 
+RUN export NODE_ENV=production
+
 # Command to run the server
 CMD ["node", "dist/src/index.js"]
