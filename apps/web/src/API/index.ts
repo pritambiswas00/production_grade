@@ -5,7 +5,7 @@ interface CustomConfig extends AxiosRequestConfig {
 }
 
 const options: CustomConfig = {
-  baseURL: 'http://34.133.83.12:8080',
+  baseURL: 'https://34.133.83.12:443',
   withCredentials: true,
 };
 
