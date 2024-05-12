@@ -1,0 +1,3 @@
+runtime: nodejs20.12.2
+
+service: node-express-api
