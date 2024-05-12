@@ -25,7 +25,7 @@ appInstance.use(helmet());
 
 appInstance.use(
   cors({
-    origin: serverConfig.UI_ORIGIN,
+    origin: '*',
     credentials: true,
   }),
 );
