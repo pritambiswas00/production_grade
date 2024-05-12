@@ -6,10 +6,10 @@
   "scripts": {
     "dev:watch": "export NODE_ENV=development && nodemon src/index.ts",
     "build": "tsc",
-    "start": "pnpm build && export NODE_ENV=production && cross-env NODE_ENV=production && node dist/src/index.js",
     "db:seed": "npx knex seed:run",
     "db:rollback": "npx knex migrate:rollback",
     "db:migrate": "npx knex migrate:latest",
+    "start": "pnpm build && export NODE_ENV=production && cross-env NODE_ENV=production && pnpm db:migrate && node dist/src/index.js",
     "test": "jest",
     "test:coverage": "jest --forceExit --coverage --verbose --detectOpenHandles"
   },
