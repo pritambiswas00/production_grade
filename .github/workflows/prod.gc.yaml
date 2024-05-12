@@ -27,6 +27,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build Node Project
+        run: pnpm build
+
       - name: Google Cloud Auth
         uses: 'google-github-actions/auth@v2'
         with:
@@ -40,8 +43,3 @@ jobs:
         working-directory: ./apps/server
         run: |
           gcloud app deploy app.yaml --quiet
-
-      - name: Deploy node-express-api service/module
-        working-directory: ./apps/server
-        run: |
-          gcloud app deploy app.yaml --quiet --version=node-express-api

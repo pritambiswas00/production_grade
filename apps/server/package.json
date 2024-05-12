@@ -9,7 +9,7 @@
     "db:seed": "npx knex seed:run",
     "db:rollback": "npx knex migrate:rollback",
     "db:migrate": "npx knex migrate:latest",
-    "start": "npm run build && export NODE_ENV=production && npm run db:migrate && node dist/src/index.js",
+    "start": "export NODE_ENV=production && npm run db:migrate && node dist/src/index.js",
     "test": "jest",
     "test:coverage": "jest --forceExit --coverage --verbose --detectOpenHandles"
   },
