@@ -2,9 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { routeTree } from './App';
 import './index.css';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
+import {
+  RouterProvider,
+  createRouter,
+  createBrowserHistory,
+} from '@tanstack/react-router';
 import { ThemeProvider } from './components/ui/theme-provider';
-const router = createRouter({ routeTree });
+const router = createRouter({ history: createBrowserHistory(), routeTree });
 
 declare module '@tanstack/react-router' {
   interface Register {

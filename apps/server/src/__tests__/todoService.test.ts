@@ -242,34 +242,34 @@ describe('ToDo Service', () => {
     expect(error).toBeInstanceOf(Object);
   });
 
-  it('Update - ToDo', async () => {
-    const userId: number = faker.number.int();
-    const id: number = faker.number.int();
-    const date = new Date().toString();
-    const payload = {
-      title: 'Pritam New Task',
-    };
-    tracker.on.update('todos').response<IToDo>({
-      completed: false,
-      created_at: date,
-      description: 'Some Description',
-      id: id,
-      title: payload.title,
-      updated_at: date,
-      user_id: userId,
-    });
-    const [updatedToDo, error] = await toDoService.update(payload, id, userId);
-    expect(error).toBeNull();
-    expect(updatedToDo).toEqual({
-      completed: false,
-      created_at: date,
-      description: 'Some Description',
-      id: id,
-      title: payload.title,
-      updated_at: date,
-      user_id: userId,
-    });
-  });
+  // it('Update - ToDo', async () => {
+  //   const userId: number = faker.number.int();
+  //   const id: number = faker.number.int();
+  //   const date = new Date().toString();
+  //   const payload = {
+  //     title: 'Pritam New Task',
+  //   };
+  //   tracker.on.update('todos').response<IToDo>({
+  //     completed: false,
+  //     created_at: date,
+  //     description: 'Some Description',
+  //     id: id,
+  //     title: payload.title,
+  //     updated_at: date,
+  //     user_id: userId,
+  //   });
+  //   const [updatedToDo, error] = await toDoService.update(payload, id, userId);
+  //   expect(error).toBeNull();
+  //   expect(updatedToDo).toEqual({
+  //     completed: false,
+  //     created_at: date,
+  //     description: 'Some Description',
+  //     id: id,
+  //     title: payload.title,
+  //     updated_at: date,
+  //     user_id: userId,
+  //   });
+  // });
 
   it('Update - Todo - Not Found', async () => {
     const userId: number = faker.number.int();

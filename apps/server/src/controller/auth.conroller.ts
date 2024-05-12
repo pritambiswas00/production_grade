@@ -86,14 +86,23 @@ const authController = {
   > => {
     try {
       const user = req.user as Pick<IUser, 'email' | 'id' | 'name'>;
-      const [data, error] = await authService.signOut(user);
+
+      const [_, error] = await authService.signOut(user);
       if (error)
-        return res.status(400).json(new BadRequest("Couldn't sign out."));
+        return res
+          .status(400)
+          .json(
+            new BadRequest(
+              error instanceof ServerError
+                ? error.errorMessage
+                : "Couldn't Sign Out",
+            ),
+          );
+      req.logout((_) => {});
       return res
         .status(200)
         .json({ message: 'You have successfully sign out.' });
     } catch (error: unknown) {
-      console.log(error, 'Error');
       return res.status(500).json(new InternalServerError());
     }
   },

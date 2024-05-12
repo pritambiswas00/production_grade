@@ -1,16 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
-import { Button } from '../components/ui/button';
+import { Button } from './button';
 
 describe('Button component', () => {
-  //   it('renders button with default variant and size', () => {
-  //     const { getByRole } = render(<Button>Click me</Button>);
-  //     const button = getByRole('button');
-  //     expect(button).toHaveClass('bg-primary');
-  //     expect(button).toHaveTextContent('Click me');
-  //     expect(button).toHaveAttribute('type', 'button');
-  //   });
-
   it('renders button with specific variant and size', () => {
     const { getByRole } = render(
       <Button variant="destructive" size="sm">

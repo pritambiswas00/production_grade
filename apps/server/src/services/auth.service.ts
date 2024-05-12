@@ -30,6 +30,7 @@ const authService = {
         .where({ id: user.id, email: user.email })
         .first()
         .select('*');
+      console.log(userInfo);
       if (!userInfo.session)
         return [null, new ServerError("Couldn't find the session.")];
       if (
@@ -39,15 +40,16 @@ const authService = {
       ) {
         await DB<IUser>('users')
           .where({ id: user.id, email: user.email })
-          .update({ session: undefined });
+          .update({ session: '' });
         return [null, new ServerError('Please try to login again')];
       } else {
         await DB<IUser>('users')
           .where({ id: user.id, email: user.email })
-          .update({ session: undefined });
+          .update({ session: '' });
         return ['You have successfully logged out.', null];
       }
     } catch (error: unknown) {
+      console.log(error, 'Error');
       return [null, error];
     }
   },

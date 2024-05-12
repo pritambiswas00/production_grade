@@ -37,6 +37,7 @@
 import { Router } from 'express';
 import { authController } from '../controller/auth.conroller';
 import passport from 'passport';
+import { isAuthenticated } from '../middleware';
 const router = Router();
 
 /**
@@ -59,7 +60,7 @@ const router = Router();
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signin', passport.authorize('local'), authController.signIn);
+router.post('/signin', passport.authenticate('local'), authController.signIn);
 
 /**
  * @swagger
@@ -97,6 +98,6 @@ router.post('/signup', authController.signUp);
  *       '500':
  *         description: Internal server error.
  */
-router.post('/signout', passport.authenticate('jwt'), authController.signOut);
+router.post('/signout', isAuthenticated, authController.signOut);
 
 export default router;

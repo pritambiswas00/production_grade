@@ -46,10 +46,9 @@
 
 import { Router } from 'express';
 import { userController } from '../controller/user.controller';
-import passport from 'passport';
 import { isAuthenticated } from '../middleware';
 const router = Router();
-router.use(passport.authenticate('jwt'));
+router.use(isAuthenticated);
 /**
  * @swagger
  * /v1/user:

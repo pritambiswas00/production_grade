@@ -16,16 +16,14 @@ COPY . .
 RUN pnpm build
 
 
-FROM busybox:1.35
+# Use Nginx as final image
+FROM nginx:alpine
 
-RUN adduser -D static
+# Copy static files from the build stage to Nginx's default public directory
+COPY --from=build-stage /app/ui/dist /usr/share/nginx/html
 
-USER static
+# Expose port 80
+EXPOSE 80
 
-WORKDIR /home/static
-
-
-COPY --from=build-stage /app/dist .
-
-
-CMD ["busybox", "httpd", "-f", "-v", "-p", "3000"]
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]

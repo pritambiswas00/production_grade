@@ -63,7 +63,7 @@ To get a local copy up and running, follow these steps:
    pnpm start:app
    ```
 
-   goto /localhost:<PORT>/docs
+   goto http://localhost:<PORT>/docs
 
 ### Running Tests
 
