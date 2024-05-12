@@ -25,15 +25,9 @@ jobs:
         run: |
           docker build -t gcr.io/geometric-rex-332309/productionrepo/server-image:latest .
 
-      - name: Build UI Docker Image
-        working-directory: ./apps/web
-        run: |
-          docker build -t gcr.io/geometric-rex-332309/productionrepo/ui-image:latest .
-
       - name: Build and push Docker image
         run: |
           docker push gcr.io/geometric-rex-332309/productionrepo/server-image:latest
-          docker push gcr.io/geometric-rex-332309/productionrepo/ui-image:latest
 
       - name: Deploy the images
         run: |
