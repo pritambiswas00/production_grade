@@ -40,7 +40,12 @@ jobs:
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: Deploy to Google App Engine
+      - name: Deploy default service/module
+        working-directory: ./apps/server
+        run: |
+          gcloud app deploy app.yaml --quiet
+
+      - name: Deploy node-express-api service/module
         working-directory: ./apps/server
         run: |
           gcloud app deploy app.yaml --quiet --version=node-express-api
