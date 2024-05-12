@@ -19,5 +19,8 @@ COPY . .
 # Transpile TypeScript to JavaScript
 RUN pnpm build
 
+#DB MIGRATTION
+RUN pnpm db:migrate
+
 # Command to run the server
 CMD ["node", "dist/src/index.js"]
