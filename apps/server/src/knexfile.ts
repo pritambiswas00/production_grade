@@ -1,5 +1,6 @@
 // Update with your config settings.
 import { Knex } from 'knex';
+import { serverConfig } from './config/config';
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
@@ -11,6 +12,7 @@ enum Env {
 
 enum Connection {
   SQLITE3 = 'sqlite3',
+  POSTGRES = 'postgresql',
 }
 
 export interface IConfig {
@@ -39,10 +41,10 @@ export default {
     pool: { min: 0, max: 7 },
     debug: true,
     migrations: {
-      directory: './src/migrations',
+      directory: './migrations',
     },
     seeds: {
-      directory: './src/seeds',
+      directory: './seeds',
     },
   },
 
@@ -55,20 +57,28 @@ export default {
     pool: { min: 0, max: 7 },
     debug: true,
     migrations: {
-      directory: './src/migrations',
+      directory: './migrations',
     },
     seeds: {
-      directory: './src/seeds',
+      directory: './seeds',
     },
   },
 
   production: {
-    client: Connection.SQLITE3,
+    client: Connection.POSTGRES,
     connection: {
-      filename: './src/prod.db3',
+      host: serverConfig.HOST,
+      port: Number(serverConfig.DB_PORT),
+      user: serverConfig.USER,
+      password: serverConfig.PASSWORD,
+      database: serverConfig.DATABASE,
     },
-    useNullAsDefault: true,
-    pool: { min: 0, max: 7 },
-    debug: false,
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
   },
 } satisfies Record<Env, Knex.Config<IConfig>>;

@@ -30,3 +30,5 @@ node_modules
 */**/*.db3
 */**/*.db
 *.firebase
+app.yaml
+
