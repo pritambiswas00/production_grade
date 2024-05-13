@@ -6,6 +6,7 @@
   "scripts": {
     "dev:watch": "export NODE_ENV=development && nodemon src/index.ts",
     "build": "tsc",
+    "build:app": "pnpm build && npx knex migrate:latest --knexfile ./dist/src/knexfile.js",
     "db:seed": "npx knex seed:run",
     "db:rollback": "npx knex migrate:rollback",
     "db:migrate": "npx knex migrate:latest",
