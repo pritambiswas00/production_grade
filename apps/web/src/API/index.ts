@@ -7,7 +7,7 @@ interface CustomConfig extends AxiosRequestConfig {
 const options: CustomConfig = {
   baseURL: import.meta.env.DEV
     ? 'http://localhost:4001'
-    : 'https://express-to-do-app.web.app/',
+    : 'https://geometric-rex-332309.el.r.appspot.com/',
   withCredentials: true,
 };
 
