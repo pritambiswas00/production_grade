@@ -31,4 +31,5 @@ node_modules
 */**/*.db
 *.firebase
 app.yaml
+*.sqlite3
 

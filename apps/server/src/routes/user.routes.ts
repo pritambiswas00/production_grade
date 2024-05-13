@@ -47,6 +47,7 @@
 import { Router } from 'express';
 import { userController } from '../controller/user.controller';
 import { isAuthenticated } from '../middleware';
+import passport from 'passport';
 const router = Router();
 router.use(isAuthenticated);
 /**
@@ -67,7 +68,7 @@ router.use(isAuthenticated);
  *       '500':
  *         description: Internal server error.
  */
-router.get('/', userController.getUser);
+router.get('/', passport.authenticate('jwt'), userController.getUser);
 
 /**
  * @swagger
@@ -89,7 +90,11 @@ router.get('/', userController.getUser);
  *       '500':
  *         description: Internal server error.
  */
-router.patch('/update', userController.updateUser);
+router.patch(
+  '/update',
+  passport.authenticate('jwt'),
+  userController.updateUser,
+);
 
 /**
  * @swagger
@@ -105,6 +110,10 @@ router.patch('/update', userController.updateUser);
  *       '500':
  *         description: Internal server error.
  */
-router.delete('/delete', userController.deleteUser);
+router.delete(
+  '/delete',
+  passport.authenticate('jwt'),
+  userController.deleteUser,
+);
 
 export default router;

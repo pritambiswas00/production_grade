@@ -22,7 +22,6 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.2.0",
     "express-session": "^1.18.0",
-    "express-session-sqlite": "^2.1.1",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",

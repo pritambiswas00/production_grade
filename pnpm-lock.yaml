@@ -74,9 +74,6 @@ importers:
       express-session:
         specifier: ^1.18.0
         version: 1.18.0
-      express-session-sqlite:
-        specifier: ^2.1.1
-        version: 2.1.1
       helmet:
         specifier: ^7.1.0
         version: 7.1.0
@@ -3236,9 +3233,6 @@ packages:
     peerDependencies:
       express: 4 || 5 || ^5.0.0-beta.1
 
-  express-session-sqlite@2.1.1:
-    resolution: {integrity: sha512-wbL+1uZykkXvDEPKhhJZE75gN9RBlI/WbW1g4LAYtUYS+gjtWBpJOP2x1bdgRZHUYbIFY7L8qieFvZEBsqaMlw==}
-
   express-session@1.18.0:
     resolution: {integrity: sha512-m93QLWr0ju+rOwApSsyso838LQwgfs44QtOP/WBiwtAgPIo/SAh1a5c6nn2BR6mFNZehTpqKDESzP+fRHVbxwQ==}
     engines: {node: '>= 0.8.0'}
@@ -5607,15 +5601,8 @@ packages:
     resolution: {integrity: sha512-L/dqan+Hrt0PpPdCbHcI9bdfOvqaQZR7v5c5SWMJ3bUGQSezK09Mm9q2I3B4iObjaq7FyoldIM+fDSmfzGRXCA==}
     hasBin: true
 
-  sql-template-strings@2.2.2:
-    resolution: {integrity: sha512-UXhXR2869FQaD+GMly8jAMCRZ94nU5KcrFetZfWEMd+LVVG6y0ExgHAhatEcKZ/wk8YcKPdi+hiD2wm75lq3/Q==}
-    engines: {node: '>=4.0.0'}
-
   sqlite3@5.1.7:
     resolution: {integrity: sha512-GGIyOiFaG+TUra3JIfkI/zGP8yZYLPQ0pl1bH+ODjiX57sPhrLU5sQJn1y9bDKZUFYkX1crlrPfSYt0BKKdkog==}
-
-  sqlite@4.2.1:
-    resolution: {integrity: sha512-Tll0Ndvnwkuv5Hn6WIbh26rZiYQORuH1t5m/or9LUpSmDmmyFG89G9fKrSeugMPxwmEIXoVxqTun4LbizTs4uw==}
 
   ssri@10.0.6:
     resolution: {integrity: sha512-MGrFH9Z4NP9Iyhqn16sDtBpRRNJ0Y2hNa6D65h736fVSaPCHr4DM4sWUNvVaSuC+0OBGhwsrydQwmgfg5LncqQ==}
@@ -9629,14 +9616,6 @@ snapshots:
     dependencies:
       express: 4.19.2
 
-  express-session-sqlite@2.1.1:
-    dependencies:
-      debug: 4.3.4(supports-color@5.5.0)
-      sql-template-strings: 2.2.2
-      sqlite: 4.2.1
-    transitivePeerDependencies:
-      - supports-color
-
   express-session@1.18.0:
     dependencies:
       cookie: 0.6.0
@@ -12540,8 +12519,6 @@ snapshots:
       get-stdin: 8.0.0
       nearley: 2.20.1
 
-  sql-template-strings@2.2.2: {}
-
   sqlite3@5.1.7:
     dependencies:
       bindings: 1.5.0
@@ -12553,8 +12530,6 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - supports-color
-
-  sqlite@4.2.1: {}
 
   ssri@10.0.6:
     dependencies:

@@ -69,6 +69,8 @@ To get a local copy up and running, follow these steps:
 
 Explain how to run the automated tests for this system:
 
+From <rootDir>
+
 ```bash
 pnpm test:all
 ```
@@ -76,3 +78,7 @@ pnpm test:all
 ### CI/CD Pipeline Reference
 
 - [Github Actions](https://drive.google.com/file/d/1W35AkRdSuc7NBGalt7qEIvEBpwJGuzrc/view?usp=sharing/) CI/CD pipeline of the system
+
+### Server LLD Architecture
+
+- [Inner Architecture](https://drive.google.com/file/d/182w9WX0JYnq77XEwsSv_qLEBI6VeN3Es/view?usp=sharing)

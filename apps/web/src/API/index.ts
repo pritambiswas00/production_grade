@@ -5,7 +5,9 @@ interface CustomConfig extends AxiosRequestConfig {
 }
 
 const options: CustomConfig = {
-  baseURL: 'http://34.133.83.12:8080',
+  baseURL: import.meta.env.DEV
+    ? 'http://localhost:4001'
+    : 'https://express-to-do-app.web.app/',
   withCredentials: true,
 };
 
