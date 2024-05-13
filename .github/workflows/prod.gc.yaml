@@ -54,4 +54,4 @@ jobs:
         working-directory: ./apps/web
         run: |
           pnpm build
-          firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
+          firebase deploy --project express-to-do-app
