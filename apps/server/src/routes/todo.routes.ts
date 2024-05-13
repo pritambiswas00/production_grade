@@ -27,6 +27,7 @@
 import { Router } from 'express';
 import { toDoController } from '../controller/todo.controller';
 import { isAuthenticated } from '../middleware';
+import passport from 'passport';
 const router = Router();
 router.use(isAuthenticated);
 /**
@@ -75,7 +76,7 @@ router.use(isAuthenticated);
  *       '500':
  *         description: Internal server error.
  */
-router.post('/create', toDoController.createToDo);
+router.post('/create', passport.authenticate('jwt'), toDoController.createToDo);
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.post('/create', toDoController.createToDo);
  *       '500':
  *         description: Internal server error.
  */
-router.get('/:id', toDoController.getToDo);
+router.get('/:id', passport.authenticate('jwt'), toDoController.getToDo);
 
 /**
  * @swagger
@@ -140,7 +141,7 @@ router.get('/:id', toDoController.getToDo);
  *       '500':
  *         description: Internal server error.
  */
-router.get('/all', toDoController.getAllToDo);
+router.get('/all', passport.authenticate('jwt'), toDoController.getAllToDo);
 
 /**
  * @swagger
@@ -172,7 +173,11 @@ router.get('/all', toDoController.getAllToDo);
  *       '500':
  *         description: Internal server error.
  */
-router.patch('/update/:id', toDoController.updateToDo);
+router.patch(
+  '/update/:id',
+  passport.authenticate('jwt'),
+  toDoController.updateToDo,
+);
 
 /**
  * @swagger
@@ -198,6 +203,10 @@ router.patch('/update/:id', toDoController.updateToDo);
  *       '500':
  *         description: Internal server error.
  */
-router.delete('/delete/:id', toDoController.deleteToDo);
+router.delete(
+  '/delete/:id',
+  passport.authenticate('jwt'),
+  toDoController.deleteToDo,
+);
 
 export default router;

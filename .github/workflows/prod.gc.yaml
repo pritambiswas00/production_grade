@@ -44,3 +44,14 @@ jobs:
         working-directory: ./apps/server
         run: |
           gcloud app deploy app.yaml --quiet
+
+      - name: Install Firebase Tools
+        run: |
+          pnpm add -g firebase-tools
+
+      - name: Build Web Image
+        working-directory: ./apps/web
+        run: |
+          pnpm build
+          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GC_SECRETS }}
+          firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}

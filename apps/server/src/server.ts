@@ -4,7 +4,6 @@ import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { Database } from 'sqlite3';
-import sqliteStoreFactory from 'express-session-sqlite';
 import pgSession from 'connect-pg-simple';
 import { Pool } from 'pg';
 import helmet from 'helmet';
@@ -16,8 +15,8 @@ import { swaggerInit } from './routes/swagger.config';
 import { initPassport } from './middleware/index';
 import { Environment, serverConfig } from './config/config';
 
+console.log(process.env);
 //Session Store//
-const SQLiteStore = sqliteStoreFactory(session);
 const PGSessionStore = pgSession(session);
 
 const appInstance: Express = express();
@@ -45,15 +44,16 @@ appInstance.use(
     saveUninitialized: true,
     store: new PGSessionStore({
       tableName: 'session',
+      createTableIfMissing: true,
       pool: new Pool({
         max: 3,
         min: 1,
         application_name: 'express_to_do',
-        host: 'aws-0-ap-south-1.pooler.supabase.com',
-        database: 'postgres',
-        port: 5432,
-        user: 'postgres.fufpzfuxofkldvkfdwkg',
-        password: '/)PKg7$RT5?u*iq',
+        host: serverConfig.HOST,
+        database: serverConfig.DATABASE,
+        port: Number(serverConfig.DB_PORT),
+        user: serverConfig.DB_USER,
+        password: serverConfig.PASSWORD,
       }),
       ttl: 1000 * 60 * 60 * 24,
     }),

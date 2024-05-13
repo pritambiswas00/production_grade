@@ -19,7 +19,7 @@ export const swaggerInit = (appInstance: Express): void => {
         url:
           serverConfig.NODE_ENV === Environment.DEV
             ? `http://localhost:${serverConfig.PORT}`
-            : `http://34.133.83.12:${serverConfig.PORT}`,
+            : `https://express-to-do-app.web.app/`,
       },
     ],
   };

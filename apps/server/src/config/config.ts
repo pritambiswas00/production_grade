@@ -5,7 +5,6 @@ import { resolve } from 'path';
 export enum Environment {
   DEV = 'development',
   PROD = 'production',
-  TEST = 'test',
 }
 config({
   path: resolve(__dirname, '..', '..', '.env'),
@@ -15,7 +14,7 @@ config({
 const ServerConfig = z
   .object({
     NODE_ENV: z
-      .enum([Environment.DEV, Environment.PROD, Environment.TEST])
+      .enum([Environment.DEV, Environment.PROD])
       .default(Environment.DEV),
     PORT: z
       .string()
@@ -27,8 +26,9 @@ const ServerConfig = z
     HOST: z.string(),
     DATABASE: z.string(),
     DB_PORT: z.string(),
-    USER: z.string(),
+    DB_USER: z.string(),
     PASSWORD: z.string(),
+    DB_URI: z.string(),
   })
   .readonly();
 
