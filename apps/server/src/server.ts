@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { Database } from 'sqlite3';
 import sqliteStoreFactory from 'express-session-sqlite';
+import pgSession from 'connect-pg-simple';
+import { Pool } from 'pg';
 import helmet from 'helmet';
 import logger from './logger/index';
 import authRoutes from './routes/auth.routes';
@@ -16,6 +18,7 @@ import { Environment, serverConfig } from './config/config';
 
 //Session Store//
 const SQLiteStore = sqliteStoreFactory(session);
+const PGSessionStore = pgSession(session);
 
 const appInstance: Express = express();
 
@@ -40,15 +43,19 @@ appInstance.use(
     secret: serverConfig.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
-    store: new SQLiteStore({
-      driver: Database,
-      path: './sessions.db',
-      ttl: 300000,
-      prefix:
-        serverConfig.NODE_ENV === Environment.DEV
-          ? Environment.DEV
-          : Environment.PROD,
-      cleanupInterval: 240000,
+    store: new PGSessionStore({
+      tableName: 'session',
+      pool: new Pool({
+        max: 3,
+        min: 1,
+        application_name: 'express_to_do',
+        host: 'aws-0-ap-south-1.pooler.supabase.com',
+        database: 'postgres',
+        port: 5432,
+        user: 'postgres.fufpzfuxofkldvkfdwkg',
+        password: '/)PKg7$RT5?u*iq',
+      }),
+      ttl: 1000 * 60 * 60 * 24,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,

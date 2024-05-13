@@ -1,5 +1,5 @@
 import { Environment, serverConfig } from '../config/config';
-import config, { IConfig } from '../../knexfile';
+import config, { IConfig } from '../knexfile';
 import knex, { Knex } from 'knex';
 
 const selectedDBConfig =
