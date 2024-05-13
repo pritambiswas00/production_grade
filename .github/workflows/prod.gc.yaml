@@ -46,17 +46,17 @@ jobs:
         run: |
           gcloud app deploy app.yaml --quiet
 
-      - name: Build Web Image
-        working-directory: ./apps/web
-        run: |
-          pnpm build
+      # - name: Build Web Image
+      #   working-directory: ./apps/web
+      #   run: |
+      #     pnpm build
 
-      - name: Install Firebase Tools
-        run: |
-          npm install -g firebase-tools
+      # - name: Install Firebase Tools
+      #   run: |
+      #     npm install -g firebase-tools
 
-      - name: Deploy Build Image
-        working-directory: ./apps/web
-        run: |
-          firebase init 
-          firebase deploy --project express-to-do-app
+      # - name: Deploy Build Image
+      #   working-directory: ./apps/web
+      #   run: |
+      #     firebase init
+      #     firebase deploy --project express-to-do-app
