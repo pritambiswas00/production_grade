@@ -58,4 +58,4 @@ jobs:
       - name: Deploy Build Image
         working-directory: ./apps/web
         run: |
-          firebase deploy --project express-to-do-app --config ./apps/web
+          firebase deploy --project express-to-do-app
