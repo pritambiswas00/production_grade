@@ -27,7 +27,7 @@ appInstance.use(helmet());
 
 appInstance.use(
   cors({
-    origin: '*',
+    origin: 'https://express-to-do-app.web.app',
     credentials: true,
   }),
 );
