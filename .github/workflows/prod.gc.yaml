@@ -54,4 +54,4 @@ jobs:
         working-directory: ./apps/web
         run: |
           pnpm build
-          firebase deploy --project express-to-do-app
+          firebase deploy --only-hosting:express-to-do-app

@@ -10,13 +10,3 @@ services:
       - ./apps/server:/app
     ports:
       - '8080:8080'
-
-  client:
-    build:
-      dockerfile: Dockerfile
-      context: ./apps/web
-    volumes:
-      - /apps/web/node_modules
-      - ./apps/web:/app
-    ports:
-      - '3000:3000'
