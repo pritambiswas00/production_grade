@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -53,5 +53,4 @@ jobs:
         working-directory: ./apps/web
         run: |
           pnpm build
-          export GOOGLE_APPLICATION_CREDENTIALS=${{ secrets.GC_SECRETS }}
           firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
