@@ -19,7 +19,7 @@ export const swaggerInit = (appInstance: Express): void => {
         url:
           serverConfig.NODE_ENV === Environment.DEV
             ? `http://localhost:${serverConfig.PORT}`
-            : `https://express-to-do-app.web.app/`,
+            : `https://geometric-rex-332309.el.r.appspot.com`,
       },
     ],
   };

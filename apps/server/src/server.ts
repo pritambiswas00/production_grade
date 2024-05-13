@@ -49,7 +49,7 @@ appInstance.use(
         max: 3,
         min: 1,
         application_name: 'express_to_do',
-        host: serverConfig.HOST,
+        host: serverConfig.DB_HOST,
         database: serverConfig.DATABASE,
         port: Number(serverConfig.DB_PORT),
         user: serverConfig.DB_USER,
