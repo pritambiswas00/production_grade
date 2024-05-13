@@ -47,7 +47,15 @@ To get a local copy up and running, follow these steps:
 
    Create a `.env` file in the <rootDir>/apps/server and configure the required environment variables. Refer to the `.env.example` file for guidance.
 
-6. Start the application:
+6. Database Migration for development
+
+Goto <rootDir>/apps/server
+
+```bash
+npx knex migrate:latest
+```
+
+7. Start the application:
 
    From the root directory
 
@@ -55,13 +63,9 @@ To get a local copy up and running, follow these steps:
    pnpm start:app
    ```
 
-7. API Documentation:
+8. API Documentation:
 
-   After running
-
-   ```bash
-   pnpm start:app
-   ```
+   After running the server
 
    goto http://localhost:<PORT>/docs
 
@@ -82,3 +86,7 @@ pnpm test:all
 ### Server LLD Architecture
 
 - [Inner Architecture](https://drive.google.com/file/d/182w9WX0JYnq77XEwsSv_qLEBI6VeN3Es/view?usp=sharing)
+
+### Deployment Architecture
+
+-[Google Cloud](https://drive.google.com/file/d/1UCTV_l9BCbiniRnfVFe_kVCz_d0SGrZA/view?usp=sharing)
