@@ -2,11 +2,12 @@ runtime: nodejs20
 
 service: default
 env_variables:
-  SESSION_KEY: '@secret-manager/projects/3859690101/secrets/SESSION_KEY'
-  JWT_SECRET_KEY: '@secret-manager/projects/3859690101/secrets/JWT_SECRET_KEY'
-  DATABASE: '@secret-manager/projects/3859690101/secrets/DATABASE'
-  DB_PORT: '@secret-manager/projects/3859690101/secrets/DB_PORT'
-  DB_USER: '@secret-manager/projects/3859690101/secrets/DB_USER'
-  PASSWORD: '@secret-manager/projects/3859690101/secrets/PASSWORD'
-  NODE_ENV: '@secret-manager/projects/3859690101/secrets/NODE_ENV'
-  DB_URI: '@secret-manager/projects/3859690101/secrets/DB_URI'
+  SESSION_KEY: '@secret-manager/projects/geometric-rex-332309/secrets/SESSION_KEY'
+  JWT_SECRET_KEY: '@secret-manager/projects/geometric-rex-332309/secrets/JWT_SECRET_KEY'
+  DATABASE: '@secret-manager/projects/geometric-rex-332309/secrets/DATABASE'
+  DB_PORT: '@secret-manager/projects/geometric-rex-332309/secrets/DB_PORT'
+  DB_USER: '@secret-manager/projects/geometric-rex-332309/secrets/DB_USER'
+  PASSWORD: '@secret-manager/projects/geometric-rex-332309/secrets/PASSWORD'
+  NODE_ENV: '@secret-manager/projects/geometric-rex-332309/secrets/NODE_ENV'
+  DB_URI: '@secret-manager/projects/geometric-rex-332309/secrets/DB_URI'
+  DB_SERVER: '@secret-manager/projects/geometric-rex-332309/secrets/DB_SERVER'
