@@ -3,7 +3,6 @@ import cors from 'cors';
 import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import { Database } from 'sqlite3';
 import pgSession from 'connect-pg-simple';
 import { Pool } from 'pg';
 import helmet from 'helmet';
@@ -45,12 +44,7 @@ appInstance.use(
     store: new PGSessionStore({
       tableName: 'session',
       createTableIfMissing: true,
-      pool: new Pool({
-        max: 3,
-        min: 1,
-        application_name: 'express_to_do',
-        connectionString: serverConfig.DB_URI,
-      }),
+      conString: serverConfig.DB_URI,
       ttl: 1000 * 60 * 60 * 24,
     }),
     cookie: {
