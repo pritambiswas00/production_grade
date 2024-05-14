@@ -26,7 +26,10 @@ appInstance.use(helmet());
 
 appInstance.use(
   cors({
-    origin: 'https://express-to-do-app.web.app',
+    origin:
+      serverConfig.NODE_ENV === Environment.PROD
+        ? 'https://express-to-do-app.web.app'
+        : 'http://localhost:3000',
     credentials: true,
   }),
 );
