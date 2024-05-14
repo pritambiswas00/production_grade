@@ -23,7 +23,6 @@ const ServerConfig = z
       .default('8080'),
     SESSION_KEY: z.string().default('SESSION_KEY'),
     JWT_SECRET_KEY: z.string().default('JWT_SECRET_KEY'),
-    DB_SERVER: z.string(),
     DATABASE: z.string(),
     DB_PORT: z.string(),
     DB_USER: z.string(),
