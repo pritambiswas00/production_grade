@@ -67,6 +67,7 @@ appInstance.use(
 initPassport(appInstance);
 
 //Rate Limiter
+appInstance.set('trust proxy', 1);
 appInstance.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
