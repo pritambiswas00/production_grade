@@ -52,7 +52,7 @@ appInstance.use(
         user: serverConfig.DB_USER,
         password: serverConfig.PASSWORD,
         port: Number(serverConfig.DB_PORT),
-        host: 'aws-0-ap-south-1.pooler.supabase.com',
+        host: serverConfig.DB_SERVER,
       },
       ttl: 1000 * 60 * 60 * 24,
     }),
