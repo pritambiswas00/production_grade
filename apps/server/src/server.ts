@@ -47,7 +47,13 @@ appInstance.use(
     store: new PGSessionStore({
       tableName: 'session',
       createTableIfMissing: true,
-      conString: serverConfig.DB_URI,
+      conObject: {
+        database: serverConfig.DATABASE,
+        user: serverConfig.DB_USER,
+        password: serverConfig.PASSWORD,
+        port: Number(serverConfig.DB_PORT),
+        host: serverConfig.DB_HOST,
+      },
       ttl: 1000 * 60 * 60 * 24,
     }),
     cookie: {
