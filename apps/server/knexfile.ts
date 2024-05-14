@@ -32,7 +32,7 @@ const config: { [key: string]: Knex.Config } = {
       database: process.env.DATABASE,
       user: process.env.DB_USER,
       password: process.env.PASSWORD,
-      host: process.env.DB_HOST,
+      host: process.env.DB_SERVER,
       port: Number(process.env.DB_PORT),
     },
     pool: {

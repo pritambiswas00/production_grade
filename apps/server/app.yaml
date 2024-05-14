@@ -4,7 +4,7 @@ service: default
 env_variables:
   SESSION_KEY: '@secret-manager/projects/geometric-rex-332309/secrets/SESSION_KEY'
   JWT_SECRET_KEY: '@secret-manager/projects/geometric-rex-332309/secrets/JWT_SECRET_KEY'
-  DB_HOST: '@secret-manager/projects/geometric-rex-332309/secrets/DB_HOST'
+  DB_SERVER: '@secret-manager/projects/geometric-rex-332309/secrets/DB_SERVER'
   DATABASE: '@secret-manager/projects/geometric-rex-332309/secrets/DATABASE'
   DB_PORT: '@secret-manager/projects/geometric-rex-332309/secrets/DB_PORT'
   DB_USER: '@secret-manager/projects/geometric-rex-332309/secrets/DB_USER'
