@@ -89,4 +89,4 @@ pnpm test:all
 
 ### Deployment Architecture
 
--[Google Cloud](https://drive.google.com/file/d/1UCTV_l9BCbiniRnfVFe_kVCz_d0SGrZA/view?usp=sharing)
+- [Google Cloud](https://drive.google.com/file/d/1UCTV_l9BCbiniRnfVFe_kVCz_d0SGrZA/view?usp=sharing)
