@@ -29,6 +29,7 @@ const ServerConfig = z
     DB_USER: z.string(),
     PASSWORD: z.string(),
     DB_URI: z.string(),
+    DB_HOST_SERVER: z.string(),
   })
   .readonly();
 

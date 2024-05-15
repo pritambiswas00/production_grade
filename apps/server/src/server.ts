@@ -49,10 +49,10 @@ appInstance.use(
       createTableIfMissing: true,
       conObject: {
         database: serverConfig.DATABASE,
-        user: process.env.DB_USER ?? 'postgres.fufpzfuxofkldvkfdwkg',
+        user: process.env.DB_USER ?? '',
         password: serverConfig.PASSWORD,
         port: Number(serverConfig.DB_PORT),
-        host: process.env.DB_SERVER ?? 'aws-0-ap-south-1.pooler.supabase.com',
+        host: serverConfig.DB_HOST_SERVER,
       },
       ttl: 1000 * 60 * 60 * 24,
     }),
