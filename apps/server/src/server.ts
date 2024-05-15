@@ -46,14 +46,14 @@ appInstance.use(
     saveUninitialized: true,
     store: new PGSessionStore({
       tableName: 'session',
+      schemaName: 'public',
+      pruneSessionInterval: false,
       createTableIfMissing: true,
-      conObject: {
-        database: serverConfig.DATABASE,
-        user: process.env.DB_USER ?? '',
-        password: serverConfig.PASSWORD,
-        port: Number(serverConfig.DB_PORT),
-        host: serverConfig.DB_HOST_SERVER,
-      },
+      pool: new Pool({
+        connectionString: serverConfig.DB_URI,
+        max: 2,
+        min: 1,
+      }),
       ttl: 1000 * 60 * 60 * 24,
     }),
     cookie: {
