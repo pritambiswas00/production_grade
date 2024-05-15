@@ -3,8 +3,7 @@ import cors from 'cors';
 import { rateLimit } from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import pgSession from 'connect-pg-simple';
-import { Pool } from 'pg';
+import sessionKnex from 'connect-session-knex';
 import helmet from 'helmet';
 import logger from './logger/index';
 import authRoutes from './routes/auth.routes';
@@ -13,10 +12,11 @@ import userRoutes from './routes/user.routes';
 import { swaggerInit } from './routes/swagger.config';
 import { initPassport } from './middleware/index';
 import { Environment, serverConfig } from './config/config';
+import { DB } from './db';
 
 console.log(process.env);
 //Session Store//
-const PGSessionStore = pgSession(session);
+const knexPgSession = sessionKnex(session);
 
 const appInstance: Express = express();
 
@@ -44,17 +44,12 @@ appInstance.use(
     secret: serverConfig.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
-    store: new PGSessionStore({
-      tableName: 'session',
-      schemaName: 'public',
-      pruneSessionInterval: false,
-      createTableIfMissing: true,
-      pool: new Pool({
-        connectionString: serverConfig.DB_URI,
-        max: 2,
-        min: 1,
-      }),
-      ttl: 1000 * 60 * 60 * 24,
+    store: new knexPgSession({
+      tablename: 'session',
+      createtable: true,
+      clearInterval: 36000,
+      knex: DB,
+      disableDbCleanup: false,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,

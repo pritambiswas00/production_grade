@@ -53,9 +53,9 @@ importers:
 
   apps/server:
     dependencies:
-      connect-pg-simple:
-        specifier: ^9.0.1
-        version: 9.0.1
+      connect-session-knex:
+        specifier: ^4.0.0
+        version: 4.0.0(pg@8.11.5)(sqlite3@5.1.7)
       cookie-parser:
         specifier: ^1.4.6
         version: 1.4.6
@@ -120,9 +120,6 @@ importers:
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
-      '@types/connect-pg-simple':
-        specifier: ^7.0.3
-        version: 7.0.3
       '@types/cookie-parser':
         specifier: ^1.4.7
         version: 1.4.7
@@ -1786,9 +1783,6 @@ packages:
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
 
-  '@types/connect-pg-simple@7.0.3':
-    resolution: {integrity: sha512-NGCy9WBlW2bw+J/QlLnFZ9WjoGs6tMo3LAut6mY4kK+XHzue//lpNVpAvYRpIwM969vBRAM2Re0izUvV6kt+NA==}
-
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
@@ -2614,9 +2608,9 @@ packages:
     resolution: {integrity: sha512-aMKprgk5YhBNyH25hj8wGt2+D52Sw1DRRIzqBwLp2Ya9mFmY8KPvvtvmna8SxVR9JMZ4kzMD68N22vlaRpkeFA==}
     engines: {node: '>=8'}
 
-  connect-pg-simple@9.0.1:
-    resolution: {integrity: sha512-BuwWJH3K3aLpONkO9s12WhZ9ceMjIBxIJAh0JD9x4z1Y9nShmWqZvge5PG/+4j2cIOcguUoa2PSQ4HO/oTsrVg==}
-    engines: {node: '>=16.0.0'}
+  connect-session-knex@4.0.0:
+    resolution: {integrity: sha512-syZf6ao03b+x42k5iwr76IBnHC6l+0Kr9d88lCTmGWimbW45ns6UYGEKv/ug60DkMrh3Wt8mO3hjhdaZLH1Rbg==}
+    engines: {node: '>=8'}
 
   connect@3.7.0:
     resolution: {integrity: sha512-ZqRXc+tZukToSNmh5C2iWMSoV3X1YUcPbqEM4DkEG5tNQXrQUZCNVGGv3IuicnkMtPfGf3Xtp8WCXs295iQ1pQ==}
@@ -7910,12 +7904,6 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/node': 20.12.7
 
-  '@types/connect-pg-simple@7.0.3':
-    dependencies:
-      '@types/express': 4.17.21
-      '@types/express-session': 1.18.0
-      '@types/pg': 8.11.6
-
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 20.12.7
@@ -8963,11 +8951,19 @@ snapshots:
       write-file-atomic: 3.0.3
       xdg-basedir: 4.0.0
 
-  connect-pg-simple@9.0.1:
+  connect-session-knex@4.0.0(pg@8.11.5)(sqlite3@5.1.7):
     dependencies:
-      pg: 8.11.5
+      bluebird: 3.7.2
+      knex: 3.1.0(pg@8.11.5)(sqlite3@5.1.7)
     transitivePeerDependencies:
+      - better-sqlite3
+      - mysql
+      - mysql2
+      - pg
       - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
 
   connect@3.7.0:
     dependencies:
